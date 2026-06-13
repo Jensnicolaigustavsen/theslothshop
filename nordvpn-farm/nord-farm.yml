@@ -1,0 +1,281 @@
+version: "3.9"
+
+services:
+  nord1:
+    image: qmcgaw/gluetun:latest
+    container_name: nord-1
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=38WsFoApBRyGiLs3Qjuzj8d3
+      - OPENVPN_PASSWORD=En1o8hHjRu2nYsWaJTemEL6r
+      - SERVER_COUNTRIES=Netherlands
+      - TZ=Europe/London
+      - UPDATER_PERIOD=24h
+    restart: unless-stopped
+
+  firefox1:
+    image: jlesage/firefox:latest
+    container_name: firefox-1
+    network_mode: "service:nord1"
+    environment:
+      - TZ=Europe/London
+      - KEEP_APP_RUNNING=1
+    ports:
+      - "5801:5800"
+    restart: unless-stopped
+    depends_on:
+      - nord1
+
+  nord2:
+    image: qmcgaw/gluetun:latest
+    container_name: nord-2
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=38WsFoApBRyGiLs3Qjuzj8d3
+      - OPENVPN_PASSWORD=En1o8hHjRu2nYsWaJTemEL6r
+      - SERVER_COUNTRIES=Germany
+      - TZ=Europe/London
+      - UPDATER_PERIOD=24h
+    restart: unless-stopped
+
+  firefox2:
+    image: jlesage/firefox:latest
+    container_name: firefox-2
+    network_mode: "service:nord2"
+    environment:
+      - TZ=Europe/London
+      - KEEP_APP_RUNNING=1
+    ports:
+      - "5802:5800"
+    restart: unless-stopped
+    depends_on:
+      - nord2
+
+  nord3:
+    image: qmcgaw/gluetun:latest
+    container_name: nord-3
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=38WsFoApBRyGiLs3Qjuzj8d3
+      - OPENVPN_PASSWORD=En1o8hHjRu2nYsWaJTemEL6r
+      - SERVER_COUNTRIES=United Kingdom
+      - TZ=Europe/London
+      - UPDATER_PERIOD=24h
+    restart: unless-stopped
+
+  firefox3:
+    image: jlesage/firefox:latest
+    container_name: firefox-3
+    network_mode: "service:nord3"
+    environment:
+      - TZ=Europe/London
+      - KEEP_APP_RUNNING=1
+    ports:
+      - "5803:5800"
+    restart: unless-stopped
+    depends_on:
+      - nord3
+
+  nord4:
+    image: qmcgaw/gluetun:latest
+    container_name: nord-4
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=38WsFoApBRyGiLs3Qjuzj8d3
+      - OPENVPN_PASSWORD=En1o8hHjRu2nYsWaJTemEL6r
+      - SERVER_COUNTRIES=France
+      - TZ=Europe/London
+      - UPDATER_PERIOD=24h
+    restart: unless-stopped
+
+  firefox4:
+    image: jlesage/firefox:latest
+    container_name: firefox-4
+    network_mode: "service:nord4"
+    environment:
+      - TZ=Europe/London
+      - KEEP_APP_RUNNING=1
+    ports:
+      - "5804:5800"
+    restart: unless-stopped
+    depends_on:
+      - nord4
+
+  nord5:
+    image: qmcgaw/gluetun:latest
+    container_name: nord-5
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=38WsFoApBRyGiLs3Qjuzj8d3
+      - OPENVPN_PASSWORD=En1o8hHjRu2nYsWaJTemEL6r
+      - SERVER_COUNTRIES=Sweden
+      - TZ=Europe/London
+      - UPDATER_PERIOD=24h
+    restart: unless-stopped
+
+  firefox5:
+    image: jlesage/firefox:latest
+    container_name: firefox-5
+    network_mode: "service:nord5"
+    environment:
+      - TZ=Europe/London
+      - KEEP_APP_RUNNING=1
+    ports:
+      - "5805:5800"
+    restart: unless-stopped
+    depends_on:
+      - nord5
+
+  nord6:
+    image: qmcgaw/gluetun:latest
+    container_name: nord-6
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=38WsFoApBRyGiLs3Qjuzj8d3
+      - OPENVPN_PASSWORD=En1o8hHjRu2nYsWaJTemEL6r
+      - SERVER_COUNTRIES=Poland
+      - TZ=Europe/London
+      - UPDATER_PERIOD=24h
+    restart: unless-stopped
+
+  firefox6:
+    image: jlesage/firefox:latest
+    container_name: firefox-6
+    network_mode: "service:nord6"
+    environment:
+      - TZ=Europe/London
+      - KEEP_APP_RUNNING=1
+    ports:
+      - "5806:5800"
+    restart: unless-stopped
+    depends_on:
+      - nord6
+
+  nord7:
+    image: qmcgaw/gluetun:latest
+    container_name: nord-7
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=38WsFoApBRyGiLs3Qjuzj8d3
+      - OPENVPN_PASSWORD=En1o8hHjRu2nYsWaJTemEL6r
+      - SERVER_COUNTRIES=Spain
+      - TZ=Europe/London
+      - UPDATER_PERIOD=24h
+    restart: unless-stopped
+
+  firefox7:
+    image: jlesage/firefox:latest
+    container_name: firefox-7
+    network_mode: "service:nord7"
+    environment:
+      - TZ=Europe/London
+      - KEEP_APP_RUNNING=1
+    ports:
+      - "5807:5800"
+    restart: unless-stopped
+    depends_on:
+      - nord7
+
+  nord8:
+    image: qmcgaw/gluetun:latest
+    container_name: nord-8
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=38WsFoApBRyGiLs3Qjuzj8d3
+      - OPENVPN_PASSWORD=En1o8hHjRu2nYsWaJTemEL6r
+      - SERVER_COUNTRIES=Italy
+      - TZ=Europe/London
+      - UPDATER_PERIOD=24h
+    restart: unless-stopped
+
+  firefox8:
+    image: jlesage/firefox:latest
+    container_name: firefox-8
+    network_mode: "service:nord8"
+    environment:
+      - TZ=Europe/London
+      - KEEP_APP_RUNNING=1
+    ports:
+      - "5808:5800"
+    restart: unless-stopped
+    depends_on:
+      - nord8
+
+  nord9:
+    image: qmcgaw/gluetun:latest
+    container_name: nord-9
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=38WsFoApBRyGiLs3Qjuzj8d3
+      - OPENVPN_PASSWORD=En1o8hHjRu2nYsWaJTemEL6r
+      - SERVER_COUNTRIES=United States
+      - TZ=Europe/London
+      - UPDATER_PERIOD=24h
+    restart: unless-stopped
+
+  firefox9:
+    image: jlesage/firefox:latest
+    container_name: firefox-9
+    network_mode: "service:nord9"
+    environment:
+      - TZ=Europe/London
+      - KEEP_APP_RUNNING=1
+    ports:
+      - "5809:5800"
+    restart: unless-stopped
+    depends_on:
+      - nord9
