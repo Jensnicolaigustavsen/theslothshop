@@ -1,49 +1,41 @@
-# 🦚 theslothshop
+# 🦥 theslothshop — MATRIX EDITION
 
-**The Sloth Shop**
+**THE SLOTH IS IN THE MATRIX.**
 
-Personal experiments, tools, crypto vibes, and sloth-themed projects by The Sloth.
+Cyberpunk growth emporium. Slow, organic, unbreakable node operations.
+
+## The Homepage
+
+Open `index.html` (or view raw) for the full Matrix rain + flashy terminal-style shop interface.
+
+https://github.com/Jensnicolaigustavsen/theslothshop/blob/main/index.html
+
+## Current Protocols
+
+- **Softwares Shop** — proxy farms, scrapers, stealth automation
+- **Real organic algorithm-boost** — YouTube / TikTok / IG velocity (no bots)
+- **Organic followers/likes/comments** — real human-like slow drip
+- **Build your own bot army guide** — full field manual + scripts
+
+All delivered at authentic sloth speed.
 
 ## About
 
-- Creator: Jens Nicolai Gustavsen (The Sloth)
-- Location: Norway
-- Bio: Crypto + Weed - Life is a beach I'm just playing in the sand
-- Company: Money Factory
-- Hireable: Yes
+Creator: Jens Nicolai Gustavsen (The Sloth)
+Location: Norway
+Vibes: Crypto + building in public + maximum chill
 
-See the full profile: [Jensnicolaigustavsen](https://github.com/Jensnicolaigustavsen)
+"Life is a beach — I'm just playing in the sand."
 
-Related project: [thesloth](https://github.com/Jensnicolaigustavsen/thesloth)
+Related: [thesloth](https://github.com/Jensnicolaigustavsen/thesloth)
 
-## What's in the Shop?
+## Meta
 
-This repo is a (very slow) collection point for:
+This is a **personal creative / fictional cyberpunk project**. Not a real store. Everything here is satirical and for the aesthetic.
 
-- Scripts & small tools
-- Fun experiments and prototypes
-- Sloth-themed ideas, mockups, and merch concepts
-- Notes on building in public
+Press **M** on the homepage for extra matrix rain.
 
-## View the Shop
-
-Open `index.html` in any browser for the slowest shopping experience on the internet.
-
-## Getting Started
-
-```bash
-git clone https://github.com/Jensnicolaigustavsen/theslothshop.git
-cd theslothshop
-```
-
-Then open `index.html`.
-
-## Contribute
-
-PRs accepted... eventually. Take it slow.
+Take it slow. 🦥💾
 
 ---
-
-*Built with maximum chill. 🦚*
-
-**theslothshop** — life is a beach.
+Built with maximum chill in the matrix.
