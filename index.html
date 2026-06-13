@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>theslothshop // MATRIX v0.8</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- EmailJS for sending emails on register/buy (free tier). Sign up at emailjs.com, create service + 2 templates, replace keys below -->
+    <!-- EmailJS for admin notifications (sign up at emailjs.com - free tier). Replace keys below -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&amp;family=Share+Tech+Mono&amp;display=swap');
@@ -207,7 +207,7 @@
                     NODES: <span id="node-count" class="font-bold text-[#00ff9d] cyber-glow">0</span>
                 </div>
                 <div id="auth-section" class="flex items-center gap-x-2">
-                    <!-- Populated by JS: Register/Login or logged in state -->
+                    <!-- JS populates Register/Login or logged-in state -->
                 </div>
             </div>
         </div>
@@ -294,7 +294,7 @@
         </div>
     </div>
 
-    <!-- CYBER TERMINAL MODAL (existing shop modal) -->
+    <!-- CYBER TERMINAL MODAL (shop purchase modal) -->
     <div id="modal" onclick="if (event.target.id === 'modal') closeModal()" 
          class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
         <div onclick="event.stopImmediatePropagation()" 
@@ -353,19 +353,19 @@
         <div onclick="event.stopImmediatePropagation()" class="modal w-full max-w-md terminal rounded-2xl border border-[#00ff41] shadow-2xl shadow-[#00ff41]/30 overflow-hidden">
             <div class="px-5 py-3 bg-[#0a0a0a] border-b border-[#00ff41]/60 flex justify-between items-center">
                 <span class="font-bold tracking-widest text-lg">REGISTER</span>
-                <button onclick="closeRegisterModal()" class="text-[#00ff41]/70 hover:text-[#00ff41] text-xl">&times;</button>
+                <button onclick="closeRegisterModal()" class="text-[#00ff41]/70 hover:text-[#00ff41] text-xl leading-none">&times;</button>
             </div>
-            <div class="p-5">
-                <form onsubmit="handleRegister(event)" class="space-y-3">
-                    <input type="email" id="reg-email" placeholder="Email" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
-                    <input type="password" id="reg-password" placeholder="Password" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
-                    <input type="password" id="reg-confirm" placeholder="Confirm Password" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
+            <div class="p-5 space-y-4">
+                <form onsubmit="handleRegister(event); return false;" class="space-y-3">
+                    <input type="email" id="reg-email" placeholder="Email" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41] placeholder-[#00ff41]/50" required>
+                    <input type="password" id="reg-password" placeholder="Password" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41] placeholder-[#00ff41]/50" required>
+                    <input type="password" id="reg-confirm" placeholder="Confirm Password" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41] placeholder-[#00ff41]/50" required>
                     <button type="submit" class="neon-button w-full py-2 text-sm font-bold tracking-[2px]">Register with Email</button>
                 </form>
-                <div class="text-center my-3 text-xs opacity-70">or</div>
-                <button onclick="socialAuth('google')" class="neon-button w-full py-2 text-sm mb-2">Continue with Google</button>
+                <div class="text-center text-xs opacity-70">or</div>
+                <button onclick="socialAuth('google')" class="neon-button w-full py-2 text-sm mb-1">Continue with Google</button>
                 <button onclick="socialAuth('apple')" class="neon-button w-full py-2 text-sm">Continue with Apple</button>
-                <p class="text-[9px] text-center mt-2 opacity-50">Demo only. For production, integrate Firebase Auth for real Google/Apple sign-in.</p>
+                <p class="text-[9px] text-center mt-2 opacity-50">Demo mode. For real Google/Apple use Firebase Auth or Supabase.</p>
             </div>
         </div>
     </div>
@@ -375,26 +375,36 @@
         <div onclick="event.stopImmediatePropagation()" class="modal w-full max-w-md terminal rounded-2xl border border-[#00ff41] shadow-2xl shadow-[#00ff41]/30 overflow-hidden">
             <div class="px-5 py-3 bg-[#0a0a0a] border-b border-[#00ff41]/60 flex justify-between items-center">
                 <span class="font-bold tracking-widest text-lg">LOGIN</span>
-                <button onclick="closeLoginModal()" class="text-[#00ff41]/70 hover:text-[#00ff41] text-xl">&times;</button>
+                <button onclick="closeLoginModal()" class="text-[#00ff41]/70 hover:text-[#00ff41] text-xl leading-none">&times;</button>
             </div>
-            <div class="p-5">
-                <form onsubmit="handleLogin(event)" class="space-y-3">
-                    <input type="email" id="login-email" placeholder="Email" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
-                    <input type="password" id="login-password" placeholder="Password" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
+            <div class="p-5 space-y-4">
+                <form onsubmit="handleLogin(event); return false;" class="space-y-3">
+                    <input type="email" id="login-email" placeholder="Email" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41] placeholder-[#00ff41]/50" required>
+                    <input type="password" id="login-password" placeholder="Password" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41] placeholder-[#00ff41]/50" required>
                     <button type="submit" class="neon-button w-full py-2 text-sm font-bold tracking-[2px]">Login with Email</button>
                 </form>
-                <div class="text-center my-3 text-xs opacity-70">or</div>
-                <button onclick="socialAuth('google')" class="neon-button w-full py-2 text-sm mb-2">Continue with Google</button>
+                <div class="text-center text-xs opacity-70">or</div>
+                <button onclick="socialAuth('google')" class="neon-button w-full py-2 text-sm mb-1">Continue with Google</button>
                 <button onclick="socialAuth('apple')" class="neon-button w-full py-2 text-sm">Continue with Apple</button>
-                <p class="text-[9px] text-center mt-2 opacity-50">Demo only. For production, integrate Firebase Auth for real Google/Apple sign-in.</p>
+                <p class="text-[9px] text-center mt-2 opacity-50">Demo mode. For real Google/Apple use Firebase Auth or Supabase.</p>
             </div>
         </div>
     </div>
 
     <script>
-        // ========== MATRIX RAIN ==========
-        let matrixCanvas, matrixCtx, matrixDrops, matrixColumns, matrixChars;
+        // EmailJS setup - sign up at https://www.emailjs.com/ (free for low volume)
+        // 1. Create Email Service (e.g. Gmail)
+        // 2. Create two Email Templates: one for 'New Registration', one for 'New Purchase'
+        // 3. Get your Public Key, Service ID, Template IDs
+        // 4. Replace the placeholders below
+        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // e.g. 'user_abc123'
+        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // e.g. 'service_xyz'
+        const REG_TEMPLATE_ID = 'YOUR_REG_TEMPLATE_ID'; // e.g. 'template_register'
+        const PURCHASE_TEMPLATE_ID = 'YOUR_PURCHASE_TEMPLATE_ID'; // e.g. 'template_purchase'
+        const ADMIN_EMAIL = 'your-email@example.com'; // where you want notifications
+
         let loggedInUser = null;
+        let matrixCanvas, matrixCtx, matrixDrops, matrixColumns, matrixChars;
 
         function initMatrixRain() {
             matrixCanvas = document.getElementById('matrix-rain');
@@ -409,7 +419,7 @@
             window.addEventListener('resize', resize);
             resize();
 
-            matrixChars = '01アイウエオカキクケ科サシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
+            matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
 
             function drawRain() {
                 matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.08)';
@@ -433,7 +443,6 @@
             }
 
             setInterval(drawRain, 45);
-            // Initial burst
             setTimeout(() => {
                 for (let i = 0; i < 6; i++) {
                     matrixDrops[Math.floor(Math.random() * matrixDrops.length)] = Math.floor(Math.random() * 20);
@@ -441,7 +450,6 @@
             }, 800);
         }
 
-        // ========== AUTH (DEMO with localStorage + EmailJS for real emails) ==========
         function updateAuthUI() {
             const section = document.getElementById('auth-section');
             if (!section) return;
@@ -478,15 +486,17 @@
             const password = document.getElementById('reg-password').value;
             const confirm = document.getElementById('reg-confirm').value;
             if (!email || !password || password !== confirm) {
-                alert('Please fill all fields correctly and passwords must match.');
+                alert('Fill all fields. Passwords must match.');
                 return;
             }
+            // Demo: save to localStorage
             localStorage.setItem('loggedInUser', email);
             loggedInUser = email;
             updateAuthUI();
             closeRegisterModal();
+            // Send real email via EmailJS (configure keys above)
             sendRegistrationEmail(email);
-            alert('Registered (demo)! Check your inbox (via EmailJS). In production: save to DB and send real welcome email.');
+            alert('Registered (demo)! Check your email. In production: create real account in DB.');
         }
 
         function handleLogin(e) {
@@ -494,10 +504,10 @@
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
             if (!email || !password) {
-                alert('Please enter email and password.');
+                alert('Enter email and password.');
                 return;
             }
-            // Demo: accept any credentials
+            // Demo accept
             localStorage.setItem('loggedInUser', email);
             loggedInUser = email;
             updateAuthUI();
@@ -506,7 +516,7 @@
         }
 
         function socialAuth(provider) {
-            const email = prompt(`Enter email for ${provider} demo login (in real app: Firebase/Google/Apple OAuth popup):`);
+            const email = prompt(`Enter email for ${provider} demo (real: OAuth flow with Firebase/Auth0):`);
             if (email) {
                 localStorage.setItem('loggedInUser', email);
                 loggedInUser = email;
@@ -524,31 +534,34 @@
             updateAuthUI();
         }
 
-        // EmailJS - replace YOUR_ values with your EmailJS account details (emailjs.com)
         function sendRegistrationEmail(email) {
-            const serviceID = 'YOUR_SERVICE_ID'; // e.g. service_abc123
-            const templateID = 'YOUR_REG_TEMPLATE_ID'; // template for new registration
-            emailjs.send(serviceID, templateID, {
-                to_email: 'YOUR_ADMIN_EMAIL@gmail.com', // your email
+            if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+                console.log('EmailJS not configured - registration for: ' + email);
+                return;
+            }
+            emailjs.send(EMAILJS_SERVICE_ID, REG_TEMPLATE_ID, {
+                to_email: ADMIN_EMAIL,
                 user_email: email,
                 subject: 'New Registration - theslothshop',
-                message: `New user registered with email: ${email}\nTime: ${new Date().toISOString()}\n\n(DEMO - register to buy 2.3 EUR 9-bot service)`
+                message: `New user: ${email}\nRegistered at: ${new Date().toISOString()}`
             }).then(() => {
-                console.log('Registration notification email sent to admin');
-            }).catch((err) => console.error('EmailJS error (register):', err));
+                console.log('Registration email sent to admin');
+            }).catch(err => console.error('EmailJS register error', err));
         }
 
         function sendPurchaseEmail(email, service) {
-            const serviceID = 'YOUR_SERVICE_ID';
-            const templateID = 'YOUR_PURCHASE_TEMPLATE_ID';
-            emailjs.send(serviceID, templateID, {
-                to_email: 'YOUR_ADMIN_EMAIL@gmail.com',
+            if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+                console.log('EmailJS not configured - purchase by: ' + email + ' for ' + service);
+                return;
+            }
+            emailjs.send(EMAILJS_SERVICE_ID, PURCHASE_TEMPLATE_ID, {
+                to_email: ADMIN_EMAIL,
                 user_email: email,
                 subject: 'New Purchase - theslothshop',
-                message: `User ${email} purchased: ${service}\nPrice: 2.3 EUR for 9 bots (auto view/play YouTube links)\nTime: ${new Date().toISOString()}`
+                message: `Purchase: ${service}\nBy: ${email}\nPrice: 2.3 EUR (9 bots auto-view/play YT)\nAt: ${new Date().toISOString()}`
             }).then(() => {
-                console.log('Purchase notification email sent to admin');
-            }).catch((err) => console.error('EmailJS error (purchase):', err));
+                console.log('Purchase email sent to admin');
+            }).catch(err => console.error('EmailJS purchase error', err));
         }
 
         // ========== SHOP DATA ==========
@@ -622,7 +635,6 @@
             setTimeout(() => el.classList.remove('scale-125'), 180);
         }
 
-        // ========== MODAL LOGIC ==========
         function openShopModal(shopIndex) {
             currentShop = shops[shopIndex];
             const modal = document.getElementById('modal');
@@ -637,7 +649,6 @@
                 `<div class="flex gap-2"><span class="text-[#00ff41]/50">→</span> <span>${item}</span></div>`
             ).join('');
 
-            // Reset console
             const consoleEl = document.getElementById('action-console');
             consoleEl.classList.add('hidden');
             consoleEl.innerHTML = '';
@@ -645,7 +656,6 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
 
-            // Log the access
             addLog(`ACCESSING PROTOCOL: ${currentShop.title}`);
         }
 
@@ -656,7 +666,6 @@
             currentShop = null;
         }
 
-        // ========== MATRIX ENHANCED CHECKOUT (requires login, Shopify redirect, EmailJS) ==========
         function executePurchase() {
             if (!loggedInUser) {
                 alert('Please register or login first to purchase.');
@@ -671,7 +680,6 @@
             const miniCanvas = document.getElementById('mini-rain');
             const miniCtx = miniCanvas.getContext('2d');
 
-            // Setup mini rain canvas
             function setupMiniRain() {
                 miniCanvas.width = consoleEl.offsetWidth;
                 miniCanvas.height = 120;
@@ -729,19 +737,20 @@
                         success.innerHTML = `DEMO COMPLETE. Register now and create an account to actually buy the real service for 2.3 euro for 9 bots to automatically view the links and play the videos if it is on youtube. MATRIX NODE ONLINE`;
                         matrixDiv.appendChild(success);
 
-                        // Send admin email
                         sendPurchaseEmail(loggedInUser, currentShop.title);
 
                         updateNodeCount(Math.floor(Math.random() * 30) + 13);
                         addLog(`DEMO: ${currentShop.title} — register for real 2.3 EUR 9-bot YT service`);
 
-                        // Shopify integration button (replace URL with your real Shopify store product/cart)
+                        // Shopify integration (configure your store and product IDs)
                         const shopifyBtn = document.createElement('button');
                         shopifyBtn.className = 'mt-2 neon-button w-full text-xs';
                         shopifyBtn.textContent = 'Pay with Visa/Mastercard/Crypto on Shopify';
                         shopifyBtn.onclick = () => {
-                            // TODO: Replace with your Shopify store URL (create store, add product e.g. "9 Bots YT Viewer" at 2.3 EUR)
-                            // Example: https://yourstore.myshopify.com/cart/123456789:1
+                            // TODO: Replace with your real Shopify store URL
+                            // Create store at shopify.com, add product e.g. "9 Bots YouTube Auto-Viewer" @ 2.30 EUR
+                            // For crypto: add payment app like Coinbase Commerce
+                            // Example cart URL: https://your-store.myshopify.com/cart/123456789:1
                             window.open('https://your-shopify-store.myshopify.com/cart/123456789:1', '_blank');
                         };
                         matrixDiv.appendChild(shopifyBtn);
@@ -754,7 +763,6 @@
             }, 220);
         }
 
-        // ========== LIVE MATRIX LOG ==========
         let logInterval = null;
 
         const logMessages = [
@@ -786,7 +794,6 @@
         function startLiveLog() {
             const logEl = document.getElementById('matrix-log');
             
-            // Seed a few lines
             for (let i = 0; i < 3; i++) {
                 const randomMsg = logMessages[Math.floor(Math.random() * logMessages.length)];
                 const line = document.createElement('div');
@@ -808,12 +815,11 @@
             addLog('LOG CLEARED BY OPERATOR');
         }
 
-        // ========== INIT ==========
         function init() {
-            // EmailJS init - REPLACE with your public key from emailjs.com
-            // emailjs.init('YOUR_PUBLIC_KEY');
+            // Initialize EmailJS (uncomment and replace after setup)
+            // emailjs.init(EMAILJS_PUBLIC_KEY);
 
-            // Load saved login
+            // Load previous login
             const saved = localStorage.getItem('loggedInUser');
             if (saved) {
                 loggedInUser = saved;
@@ -823,22 +829,18 @@
             initMatrixRain();
             startLiveLog();
 
-            // Random initial nodes (looks lived-in)
             nodeCount = Math.floor(Math.random() * 47) + 11;
             document.getElementById('node-count').textContent = nodeCount;
 
-            // Welcome log
             setTimeout(() => {
                 addLog('OPERATOR CONNECTED TO THE SLOTH MATRIX');
             }, 1100);
 
-            // Subtle rain burst on load
             setTimeout(() => {
                 const canvas = document.getElementById('matrix-rain');
                 if (canvas) canvas.style.opacity = '0.28';
             }, 600);
 
-            // Keyboard easter egg: press 'm' for matrix intensity
             document.addEventListener('keydown', (e) => {
                 if (e.key.toLowerCase() === 'm') {
                     const canvas = document.getElementById('matrix-rain');
@@ -857,8 +859,7 @@
                 }
             });
 
-            // Boot message
-            console.log('%c[theslothshop] Matrix cyberpunk mode engaged. Press M to boost rain. Auth + Shopify + EmailJS ready (replace keys).', 'color:#003300');
+            console.log('%c[theslothshop] Matrix mode. Auth + Shopify + EmailJS ready (configure keys in code). Press M for rain.', 'color:#003300');
         }
 
         window.onload = init;
