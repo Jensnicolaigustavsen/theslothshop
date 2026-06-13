@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>theslothshop // MATRIX v0.8</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- EmailJS for sending emails on register/buy (free tier). Sign up at emailjs.com, create service + 2 templates, replace keys below -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&amp;family=Share+Tech+Mono&amp;display=swap');
         
@@ -204,7 +206,9 @@
                 <div class="px-3 py-1 border border-[#003300] bg-black/60">
                     NODES: <span id="node-count" class="font-bold text-[#00ff9d] cyber-glow">0</span>
                 </div>
-                <div class="text-[#00f3ff]">OPERATOR: J3NS</div>
+                <div id="auth-section" class="flex items-center gap-x-2">
+                    <!-- Populated by JS: Register/Login or logged in state -->
+                </div>
             </div>
         </div>
 
@@ -290,7 +294,7 @@
         </div>
     </div>
 
-    <!-- CYBER TERMINAL MODAL -->
+    <!-- CYBER TERMINAL MODAL (existing shop modal) -->
     <div id="modal" onclick="if (event.target.id === 'modal') closeModal()" 
          class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
         <div onclick="event.stopImmediatePropagation()" 
@@ -344,9 +348,53 @@
         </div>
     </div>
 
+    <!-- REGISTER MODAL -->
+    <div id="register-modal" onclick="if (event.target.id === 'register-modal') closeRegisterModal()" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
+        <div onclick="event.stopImmediatePropagation()" class="modal w-full max-w-md terminal rounded-2xl border border-[#00ff41] shadow-2xl shadow-[#00ff41]/30 overflow-hidden">
+            <div class="px-5 py-3 bg-[#0a0a0a] border-b border-[#00ff41]/60 flex justify-between items-center">
+                <span class="font-bold tracking-widest text-lg">REGISTER</span>
+                <button onclick="closeRegisterModal()" class="text-[#00ff41]/70 hover:text-[#00ff41] text-xl">&times;</button>
+            </div>
+            <div class="p-5">
+                <form onsubmit="handleRegister(event)" class="space-y-3">
+                    <input type="email" id="reg-email" placeholder="Email" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
+                    <input type="password" id="reg-password" placeholder="Password" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
+                    <input type="password" id="reg-confirm" placeholder="Confirm Password" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
+                    <button type="submit" class="neon-button w-full py-2 text-sm font-bold tracking-[2px]">Register with Email</button>
+                </form>
+                <div class="text-center my-3 text-xs opacity-70">or</div>
+                <button onclick="socialAuth('google')" class="neon-button w-full py-2 text-sm mb-2">Continue with Google</button>
+                <button onclick="socialAuth('apple')" class="neon-button w-full py-2 text-sm">Continue with Apple</button>
+                <p class="text-[9px] text-center mt-2 opacity-50">Demo only. For production, integrate Firebase Auth for real Google/Apple sign-in.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" onclick="if (event.target.id === 'login-modal') closeLoginModal()" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
+        <div onclick="event.stopImmediatePropagation()" class="modal w-full max-w-md terminal rounded-2xl border border-[#00ff41] shadow-2xl shadow-[#00ff41]/30 overflow-hidden">
+            <div class="px-5 py-3 bg-[#0a0a0a] border-b border-[#00ff41]/60 flex justify-between items-center">
+                <span class="font-bold tracking-widest text-lg">LOGIN</span>
+                <button onclick="closeLoginModal()" class="text-[#00ff41]/70 hover:text-[#00ff41] text-xl">&times;</button>
+            </div>
+            <div class="p-5">
+                <form onsubmit="handleLogin(event)" class="space-y-3">
+                    <input type="email" id="login-email" placeholder="Email" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
+                    <input type="password" id="login-password" placeholder="Password" class="w-full bg-black border border-[#003300] p-2 text-sm text-[#00ff41]" required>
+                    <button type="submit" class="neon-button w-full py-2 text-sm font-bold tracking-[2px]">Login with Email</button>
+                </form>
+                <div class="text-center my-3 text-xs opacity-70">or</div>
+                <button onclick="socialAuth('google')" class="neon-button w-full py-2 text-sm mb-2">Continue with Google</button>
+                <button onclick="socialAuth('apple')" class="neon-button w-full py-2 text-sm">Continue with Apple</button>
+                <p class="text-[9px] text-center mt-2 opacity-50">Demo only. For production, integrate Firebase Auth for real Google/Apple sign-in.</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ========== MATRIX RAIN ==========
         let matrixCanvas, matrixCtx, matrixDrops, matrixColumns, matrixChars;
+        let loggedInUser = null;
 
         function initMatrixRain() {
             matrixCanvas = document.getElementById('matrix-rain');
@@ -361,7 +409,7 @@
             window.addEventListener('resize', resize);
             resize();
 
-            matrixChars = '01アイウエオカキクケコサシスセソタチツテトナNIヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
+            matrixChars = '01アイウエオカキクケ科サシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
 
             function drawRain() {
                 matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.08)';
@@ -391,6 +439,116 @@
                     matrixDrops[Math.floor(Math.random() * matrixDrops.length)] = Math.floor(Math.random() * 20);
                 }
             }, 800);
+        }
+
+        // ========== AUTH (DEMO with localStorage + EmailJS for real emails) ==========
+        function updateAuthUI() {
+            const section = document.getElementById('auth-section');
+            if (!section) return;
+            if (loggedInUser) {
+                section.innerHTML = `<span class="text-[#00ff9d] text-xs">${loggedInUser}</span> <button onclick="logout()" class="neon-button px-2 py-1 text-xs">Logout</button>`;
+            } else {
+                section.innerHTML = `<button onclick="showRegisterModal()" class="neon-button px-2 py-1 text-xs">Register</button> <button onclick="showLoginModal()" class="neon-button px-2 py-1 text-xs">Login</button>`;
+            }
+        }
+
+        function showRegisterModal() {
+            document.getElementById('register-modal').classList.remove('hidden');
+            document.getElementById('register-modal').classList.add('flex');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('register-modal').classList.add('hidden');
+            document.getElementById('register-modal').classList.remove('flex');
+        }
+
+        function showLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.getElementById('login-modal').classList.add('flex');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('login-modal').classList.remove('flex');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const confirm = document.getElementById('reg-confirm').value;
+            if (!email || !password || password !== confirm) {
+                alert('Please fill all fields correctly and passwords must match.');
+                return;
+            }
+            localStorage.setItem('loggedInUser', email);
+            loggedInUser = email;
+            updateAuthUI();
+            closeRegisterModal();
+            sendRegistrationEmail(email);
+            alert('Registered (demo)! Check your inbox (via EmailJS). In production: save to DB and send real welcome email.');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            if (!email || !password) {
+                alert('Please enter email and password.');
+                return;
+            }
+            // Demo: accept any credentials
+            localStorage.setItem('loggedInUser', email);
+            loggedInUser = email;
+            updateAuthUI();
+            closeLoginModal();
+            alert('Logged in (demo).');
+        }
+
+        function socialAuth(provider) {
+            const email = prompt(`Enter email for ${provider} demo login (in real app: Firebase/Google/Apple OAuth popup):`);
+            if (email) {
+                localStorage.setItem('loggedInUser', email);
+                loggedInUser = email;
+                updateAuthUI();
+                closeRegisterModal();
+                closeLoginModal();
+                sendRegistrationEmail(email);
+                alert(`Logged in via ${provider} (demo).`);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            loggedInUser = null;
+            updateAuthUI();
+        }
+
+        // EmailJS - replace YOUR_ values with your EmailJS account details (emailjs.com)
+        function sendRegistrationEmail(email) {
+            const serviceID = 'YOUR_SERVICE_ID'; // e.g. service_abc123
+            const templateID = 'YOUR_REG_TEMPLATE_ID'; // template for new registration
+            emailjs.send(serviceID, templateID, {
+                to_email: 'YOUR_ADMIN_EMAIL@gmail.com', // your email
+                user_email: email,
+                subject: 'New Registration - theslothshop',
+                message: `New user registered with email: ${email}\nTime: ${new Date().toISOString()}\n\n(DEMO - register to buy 2.3 EUR 9-bot service)`
+            }).then(() => {
+                console.log('Registration notification email sent to admin');
+            }).catch((err) => console.error('EmailJS error (register):', err));
+        }
+
+        function sendPurchaseEmail(email, service) {
+            const serviceID = 'YOUR_SERVICE_ID';
+            const templateID = 'YOUR_PURCHASE_TEMPLATE_ID';
+            emailjs.send(serviceID, templateID, {
+                to_email: 'YOUR_ADMIN_EMAIL@gmail.com',
+                user_email: email,
+                subject: 'New Purchase - theslothshop',
+                message: `User ${email} purchased: ${service}\nPrice: 2.3 EUR for 9 bots (auto view/play YouTube links)\nTime: ${new Date().toISOString()}`
+            }).then(() => {
+                console.log('Purchase notification email sent to admin');
+            }).catch((err) => console.error('EmailJS error (purchase):', err));
         }
 
         // ========== SHOP DATA ==========
@@ -445,7 +603,7 @@
                 desc: 'DEMO ONLY: This is a fictional demo. You must register and create an account to actually buy each service for 2.3 euro for 9 bots to automatically view the links and play the videos if it is on youtube.',
                 price: '2.3 EUR for 9 bots',
                 items: [
-                    'Demo: Guide to 9-bot YT auto-view army',
+                    'Demo: Guide to 9-bot YT auto-view farm',
                     'Demo: Setup for bots that play videos on links',
                     'Demo: 9-bot farm for automatic viewing',
                     'Demo: Matrix bot army for YouTube playback'
@@ -498,9 +656,13 @@
             currentShop = null;
         }
 
-        // ========== MATRIX ENHANCED CHECKOUT ==========
+        // ========== MATRIX ENHANCED CHECKOUT (requires login, Shopify redirect, EmailJS) ==========
         function executePurchase() {
-            if (!currentShop) return;
+            if (!loggedInUser) {
+                alert('Please register or login first to purchase.');
+                showLoginModal();
+                return;
+            }
 
             const consoleEl = document.getElementById('action-console');
             consoleEl.classList.remove('hidden');
@@ -534,7 +696,7 @@
 
             const lines = [
                 '⚠️ DEMO MODE: This is a fictional demo.',
-                'You must register and create an account to buy.',
+                'You must register and create account to buy.',
                 '2.3 EUR for 9 bots that auto-view links + play YT videos.',
                 'INITIALIZING SLOTH MATRIX BREACH PROTOCOL...',
                 'ROUTING THROUGH 13 PROXY LAYERS...',
@@ -567,8 +729,22 @@
                         success.innerHTML = `DEMO COMPLETE. Register now and create an account to actually buy the real service for 2.3 euro for 9 bots to automatically view the links and play the videos if it is on youtube. MATRIX NODE ONLINE`;
                         matrixDiv.appendChild(success);
 
+                        // Send admin email
+                        sendPurchaseEmail(loggedInUser, currentShop.title);
+
                         updateNodeCount(Math.floor(Math.random() * 30) + 13);
                         addLog(`DEMO: ${currentShop.title} — register for real 2.3 EUR 9-bot YT service`);
+
+                        // Shopify integration button (replace URL with your real Shopify store product/cart)
+                        const shopifyBtn = document.createElement('button');
+                        shopifyBtn.className = 'mt-2 neon-button w-full text-xs';
+                        shopifyBtn.textContent = 'Pay with Visa/Mastercard/Crypto on Shopify';
+                        shopifyBtn.onclick = () => {
+                            // TODO: Replace with your Shopify store URL (create store, add product e.g. "9 Bots YT Viewer" at 2.3 EUR)
+                            // Example: https://yourstore.myshopify.com/cart/123456789:1
+                            window.open('https://your-shopify-store.myshopify.com/cart/123456789:1', '_blank');
+                        };
+                        matrixDiv.appendChild(shopifyBtn);
 
                         setTimeout(() => {
                             closeModal();
@@ -634,6 +810,16 @@
 
         // ========== INIT ==========
         function init() {
+            // EmailJS init - REPLACE with your public key from emailjs.com
+            // emailjs.init('YOUR_PUBLIC_KEY');
+
+            // Load saved login
+            const saved = localStorage.getItem('loggedInUser');
+            if (saved) {
+                loggedInUser = saved;
+            }
+            updateAuthUI();
+
             initMatrixRain();
             startLiveLog();
 
@@ -672,7 +858,7 @@
             });
 
             // Boot message
-            console.log('%c[theslothshop] Matrix cyberpunk mode engaged. Press M to boost rain.', 'color:#003300');
+            console.log('%c[theslothshop] Matrix cyberpunk mode engaged. Press M to boost rain. Auth + Shopify + EmailJS ready (replace keys).', 'color:#003300');
         }
 
         window.onload = init;
