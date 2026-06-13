@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>theslothshop 🦚</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .title-font { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+        .sloth-card { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .sloth-card:hover { transform: translateY(-4px); }
+        .product-price { font-variant-numeric: tabular-nums; }
+        .slow-badge { background: linear-gradient(90deg, #64748b, #475569); }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+    <div class="max-w-5xl mx-auto px-6">
+        <!-- Header -->
+        <header class="flex items-center justify-between py-8 border-b border-slate-800">
+            <div class="flex items-center gap-x-3">
+                <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex items-center justify-center text-3xl">🦥</div>
+                <div>
+                    <div class="title-font text-3xl font-semibold tracking-tighter">theslothshop</div>
+                    <div class="text-xs text-slate-500 -mt-1">EST 2026 • NORWAY</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-x-4 text-sm">
+                <a href="https://github.com/Jensnicolaigustavsen" class="flex items-center gap-x-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 transition-colors">
+                    <i class="fa-brands fa-github"></i>
+                    <span>@Jensnicolaigustavsen</span>
+                </a>
+                <div onclick="showCart()" class="flex items-center gap-x-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 cursor-pointer transition-colors">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero -->
+        <div class="py-12 text-center">
+            <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-full bg-slate-900 text-sm mb-4">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span class="text-emerald-400">Currently the slowest shop on the internet</span>
+            </div>
+            <h1 class="title-font text-6xl font-semibold tracking-tighter mb-3">The Sloth Shop</h1>
+            <p class="max-w-md mx-auto text-xl text-slate-400">Crypto + vibes. Zero rush.<br>Life is a beach — we're just playing in the sand.</p>
+            <div class="mt-6 flex justify-center gap-3">
+                <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" 
+                        class="px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 font-medium transition-colors flex items-center gap-x-2">
+                    <span>Browse the collection</span>
+                    <i class="fa-solid fa-arrow-down"></i>
+                </button>
+                <a href="https://github.com/Jensnicolaigustavsen/theslothshop" 
+                   class="px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 font-medium transition-colors flex items-center gap-x-2">
+                    <i class="fa-brands fa-github"></i>
+                    <span>View on GitHub</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div id="products" class="pb-12">
+            <div class="flex items-end justify-between mb-6">
+                <div>
+                    <div class="uppercase tracking-[2px] text-xs font-semibold text-slate-500">Curated slowly</div>
+                    <div class="text-3xl font-semibold tracking-tight">The Collection</div>
+                </div>
+                <div class="text-sm text-slate-500">Prices in USDC / ETH • Ships never</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="product-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <footer class="py-8 border-t border-slate-800 text-center text-xs text-slate-500">
+            <p>🦥 Built slowly by The Sloth • Norway • 2026</p>
+            <p class="mt-1">This is a personal creative project. Not a real store.</p>
+        </footer>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 border border-slate-700 text-sm px-5 py-3 rounded-2xl shadow-xl flex items-center gap-x-2">
+        <i class="fa-solid fa-check text-emerald-400"></i>
+        <span id="toast-text"></span>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initTailwind() {
+            document.documentElement.style.setProperty('--accent', '#10b981');
+        }
+
+        const products = [
+            {
+                id: 1,
+                name: "Ultra Slow Socks",
+                price: "13.37",
+                unit: "USDC",
+                desc: "Hand-crocheted by actual sloths (allegedly). One size fits all naps.",
+                emoji: "🧦"
+            },
+            {
+                id: 2,
+                name: "Beach Vibes Mug",
+                price: "4.20",
+                unit: "USDC",
+                desc: "For coffee that takes 45 minutes to cool down. Perfect pace.",
+                emoji: "☕"
+            },
+            {
+                id: 3,
+                name: "Sloth Hoodie (Limited)",
+                price: "0.069",
+                unit: "ETH",
+                desc: "The official uniform of people who move at their own speed.",
+                emoji: "🧥"
+            },
+            {
+                id: 4,
+                name: "Crypto Seed Packet",
+                price: "69.00",
+                unit: "USDC",
+                desc: "Plant these in your wallet. Results may vary. Very long term hold.",
+                emoji: "🌱"
+            },
+            {
+                id: 5,
+                name: "Nap Pass (Digital)",
+                price: "0.042",
+                unit: "ETH",
+                desc: "Redeemable for one guilt-free 4-hour nap. No expiry date.",
+                emoji: "😴"
+            }
+        ];
+
+        let cart = [];
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = `sloth-card bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col`;
+                
+                card.innerHTML = `
+                    <div class="text-5xl mb-4">${product.emoji}</div>
+                    <div class="font-semibold text-xl tracking-tight">${product.name}</div>
+                    <div class="mt-1 text-sm text-slate-400 flex-1">${product.desc}</div>
+                    
+                    <div class="mt-6 flex items-baseline justify-between">
+                        <div>
+                            <span class="product-price text-3xl font-semibold tracking-tighter">${product.price}</span>
+                            <span class="text-xs font-medium text-slate-500 ml-1">${product.unit}</span>
+                        </div>
+                        <button 
+                            onclick="addToCart(${product.id})"
+                            class="px-5 py-2 text-sm font-medium bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 transition-colors rounded-2xl flex items-center gap-x-2">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Add slowly</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            cart.push(product);
+            updateCartCount();
+
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            
+            toastText.textContent = `${product.name} added to cart (arrives in 3-5 sloth days)`;
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+
+            setTimeout(() => {
+                toast.classList.remove('flex');
+                toast.classList.add('hidden');
+            }, 2600);
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = cart.length;
+        }
+
+        function showCart() {
+            if (cart.length === 0) {
+                alert("Your cart is empty. The sloth is still deciding what to add.");
+                return;
+            }
+            const names = cart.map(p => p.name).join('\n• ');
+            const total = cart.length;
+            alert(`Slow Cart (${total} items):\n• ${names}\n\nCheckout will be available... eventually.`);
+        }
+
+        function init() {
+            initTailwind();
+            renderProducts();
+            updateCartCount();
+
+            // Fun console message
+            console.log('%c[theslothshop] Welcome to the slowest shop in the world. Take your time browsing.', 'color:#64748b');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
