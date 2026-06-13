@@ -23,13 +23,17 @@
         .matrix-font {
             font-family: 'VT323', 'Share Tech Mono', monospace;
             letter-spacing: 2px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
 
         .cyber-glow {
             text-shadow: 
                 0 0 5px #00ff41,
                 0 0 10px #00ff41,
-                0 0 20px #00ff41;
+                0 0 20px #00ff41,
+                0 0 30px #00ff41;
         }
 
         .cyber-glow-cyan {
@@ -149,6 +153,23 @@
             font-size: 15px;
             line-height: 1.35;
         }
+
+        .matrix-console {
+            background: #001100;
+            padding: 4px;
+            border: 1px solid #003300;
+            min-height: 80px;
+            max-height: 120px;
+            overflow: auto;
+            font-family: monospace;
+            text-shadow: 0 0 3px #00ff41;
+        }
+
+        @media (max-width: 640px) {
+            .matrix-font { letter-spacing: 1px; }
+            .cyber-glow { text-shadow: 0 0 4px #00ff41, 0 0 8px #00ff41; }
+            .neon-button { padding-top: 1rem; padding-bottom: 1rem; }
+        }
     </style>
 </head>
 <body class="min-h-screen overflow-x-hidden bg-black text-[#00ff41] crt scanline">
@@ -161,7 +182,7 @@
             <div class="flex items-center gap-x-3">
                 <div class="w-8 h-8 border border-[#00ff41] flex items-center justify-center text-xl">🦥</div>
                 <div>
-                    <span class="matrix-font text-3xl font-bold tracking-[3px] cyber-glow">THESLOTHSHOP</span>
+                    <span class="matrix-font text-2xl sm:text-3xl font-bold tracking-[3px] cyber-glow">THESLOTHSHOP</span>
                     <span class="ml-2 text-xs px-2 py-0.5 border border-[#00ff41] text-[#00ff41]">v0.8 // MATRIX</span>
                 </div>
             </div>
@@ -182,9 +203,9 @@
         <div class="pt-12 pb-8 text-center">
             <div class="inline-block mb-3 px-4 py-1 text-xs tracking-[4px] border border-[#00ff41]/50 text-[#00ff41]/70">ACCESSING SLOTH MATRIX NODE • NORWAY SECTOR</div>
             
-            <h1 class="matrix-font text-[72px] leading-none tracking-[-2px] font-bold cyber-glow mb-2">THE SLOTH<br>IS IN THE MATRIX</h1>
+            <h1 class="matrix-font text-5xl sm:text-6xl md:text-[72px] leading-none tracking-[-2px] font-bold cyber-glow mb-2">THE SLOTH<br>IS IN THE MATRIX</h1>
             
-            <p class="max-w-md mx-auto text-[#00ff41]/80 text-lg">Slow. Organic. Unbreakable.<br>Real growth at 0.3x speed.</p>
+            <p class="max-w-md mx-auto text-[#00ff41]/80 text-base sm:text-lg">Slow. Organic. Unbreakable.<br>Real growth at 0.3x speed.</p>
 
             <div class="mt-6 flex justify-center gap-3 text-xs">
                 <div class="px-4 py-2 border border-[#00ff41]/60">STATUS: <span class="text-[#00ff9d]">ONLINE</span></div>
@@ -206,7 +227,7 @@
                     <span class="text-3xl">💾</span>
                     <span class="font-bold text-xl tracking-wider">SOFTWARES SHOP</span>
                 </div>
-                <div class="mt-2 text-xs text-[#00ff41]/70 pl-11">Proxy farms • Scrapers • Stealth clients • Sloth-grade automation</div>
+                <div class="mt-2 text-xs text-[#00ff41]/70 pl-11">Real nordvpn-farm files • Gluetun clusters • Automation scripts</div>
             </button>
 
             <!-- Button 2: Real organic algorithm-boost -->
@@ -326,7 +347,7 @@
             window.addEventListener('resize', resize);
             resize();
 
-            matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
+            matrixChars = '01アイウエオカキクケコサシスセソタチツテトナNIヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
 
             function drawRain() {
                 matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.08)';
@@ -365,13 +386,13 @@
                 icon: '💾',
                 title: 'SOFTWARES SHOP',
                 color: '#00ff41',
-                desc: 'Premium slow-but-lethal automation suites. All code written at sloth pace = rock solid.',
+                desc: 'Real nordvpn-farm files from the Sloth Matrix. All code written at sloth pace = rock solid.',
                 price: '0.069 ETH',
                 items: [
-                    'SlothNode Proxy Farm Controller v4.2 — multi-account orchestration',
-                    'Matrix Scraper Elite — 0.3x speed, 99.4% survival rate',
-                    'StealthBrowser 7 — full fingerprint rotation + human-like delays',
-                    'NordVPN Farm Orchestrator (the original) — patched &amp; hardened'
+                    'nordvpn-farm/docker-compose.yml — 9-node Gluetun + Firefox farm (Spain, Germany, UK, France, Denmark, Poland, Italy, US)',
+                    'nordvpn-farm/nord-farm.yml — Alternative VPN farm config variant',
+                    'nordvpn-farm/run-all.sh — Execute commands (IP checks etc.) across all nord containers',
+                    'nordvpn-farm/restart-all.sh — Restart all Firefox instances in the farm'
                 ]
             },
             {
@@ -463,51 +484,58 @@
             currentShop = null;
         }
 
+        // ========== MATRIX ENHANCED CHECKOUT ==========
         function executePurchase() {
             if (!currentShop) return;
 
             const consoleEl = document.getElementById('action-console');
             consoleEl.classList.remove('hidden');
-            consoleEl.innerHTML = '';
+            consoleEl.innerHTML = '<div id="checkout-matrix" class="matrix-console text-[#00ff41] text-xs"></div>';
+            const matrixDiv = document.getElementById('checkout-matrix');
 
             const lines = [
-                'INITIATING SLOTH-MATRIX HANDSHAKE...',
-                'VERIFYING ORGANIC SIGNATURE...',
+                'INITIALIZING SLOTH MATRIX BREACH PROTOCOL...',
+                'SCANNING FOR ORGANIC SIGNATURE...',
                 'ROUTING THROUGH 13 PROXY LAYERS...',
                 'DECRYPTING SLOW-PATH ALGORITHM...',
-                `DEPLOYING ${currentShop.title.split(' ')[0].toUpperCase()}...`,
-                'TRANSACTION CONFIRMED.',
-                'WELCOME TO THE SLOW SIDE OF THE MATRIX.'
+                `DEPLOYING ${currentShop.title.split(' ').slice(0,2).join(' ')} FARM...`,
+                'INFILTRATING REAL NORDVPN NODES...',
+                'MATRIX RAIN SYNCHRONIZED. ACCESS GRANTED.'
             ];
 
             let i = 0;
             const interval = setInterval(() => {
                 if (i < lines.length) {
-                    const line = document.createElement('div');
-                    line.className = 'mb-0.5';
-                    line.innerHTML = `<span class="text-[#00ff41]/60">&gt;</span> ${lines[i]}`;
-                    consoleEl.appendChild(line);
-                    consoleEl.scrollTop = consoleEl.scrollHeight;
+                    const scrambled = lines[i].replace(/./g, (c, idx) => (idx % 3 === 0 && Math.random() > 0.5) ? matrixChars[Math.floor(Math.random() * matrixChars.length)] : c);
+                    const lineEl = document.createElement('div');
+                    lineEl.className = 'mb-0.5';
+                    lineEl.innerHTML = `&gt; ${scrambled}`;
+                    matrixDiv.appendChild(lineEl);
+                    matrixDiv.scrollTop = matrixDiv.scrollHeight;
+
+                    setTimeout(() => {
+                        lineEl.innerHTML = `&gt; ${lines[i]}`;
+                    }, 150);
+
                     i++;
                 } else {
                     clearInterval(interval);
                     
-                    // Success
                     setTimeout(() => {
                         const success = document.createElement('div');
-                        success.className = 'mt-2 text-[#00ff9d] font-bold';
-                        success.innerHTML = `PURCHASE COMPLETE // +${Math.floor(Math.random() * 30) + 13} NODES ACQUIRED`;
-                        consoleEl.appendChild(success);
+                        success.className = 'mt-2 text-[#00ff9d] font-bold text-sm glitch';
+                        success.innerHTML = `ACCESS GRANTED // +${Math.floor(Math.random() * 30) + 13} NODES DEPLOYED<br>MATRIX NODE ONLINE`;
+                        matrixDiv.appendChild(success);
 
                         updateNodeCount(Math.floor(Math.random() * 30) + 13);
-                        addLog(`PURCHASE CONFIRMED: ${currentShop.title}`);
+                        addLog(`PURCHASE CONFIRMED: ${currentShop.title} - MATRIX DEPLOY`);
 
                         setTimeout(() => {
                             closeModal();
                         }, 1400);
-                    }, 650);
+                    }, 400);
                 }
-            }, 380);
+            }, 260);
         }
 
         // ========== LIVE MATRIX LOG ==========
