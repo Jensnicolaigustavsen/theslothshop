@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Ultra Slow Socks",
+    "price": "13.37",
+    "unit": "USDC",
+    "stock": 42,
+    "desc": "Hand-crocheted by actual sloths (allegedly). One size fits all naps."
+  },
+  {
+    "id": 2,
+    "name": "Beach Vibes Mug",
+    "price": "4.20",
+    "unit": "USDC",
+    "stock": 100,
+    "desc": "For coffee that takes 45 minutes to cool down. Perfect pace."
+  },
+  {
+    "id": 3,
+    "name": "Sloth Hoodie (Limited)",
+    "price": "0.069",
+    "unit": "ETH",
+    "stock": 23,
+    "desc": "The official uniform of people who move at their own speed."
+  },
+  {
+    "id": 4,
+    "name": "Crypto Seed Packet",
+    "price": "69.00",
+    "unit": "USDC",
+    "stock": 7,
+    "desc": "Plant these in your wallet. Results may vary. Very long term hold."
+  },
+  {
+    "id": 5,
+    "name": "Nap Pass (Digital)",
+    "price": "0.042",
+    "unit": "ETH",
+    "stock": 999,
+    "desc": "Redeemable for one guilt-free 4-hour nap. No expiry date."
+  }
+]
