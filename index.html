@@ -361,7 +361,7 @@
             window.addEventListener('resize', resize);
             resize();
 
-            matrixChars = '01アイウエオカキクケコサシスセソタチツテトNAニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
+            matrixChars = '01アイウエオカキクケコサシスセソタチツテトナNIヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
 
             function drawRain() {
                 matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.08)';
@@ -400,7 +400,7 @@
                 icon: '💾',
                 title: 'SOFTWARES SHOP',
                 color: '#00ff41',
-                desc: 'DEMO ONLY: Register and create an account to actually buy. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
+                desc: 'DEMO ONLY: This is a fictional demo. Register and create an account to actually buy the real service. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
                 price: '2.3 EUR for 9 bots',
                 items: [
                     'nordvpn-farm/docker-compose.yml — 9-node Gluetun + Firefox farm (demo of the bot runner)',
@@ -414,13 +414,13 @@
                 icon: '📈',
                 title: 'REAL ORGANIC ALGORITHM-BOOST',
                 color: '#00f3ff',
-                desc: 'DEMO ONLY: Register and create an account to actually buy. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
+                desc: 'DEMO ONLY: This is a fictional demo. Register and create an account to actually buy the real service. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
                 price: '2.3 EUR for 9 bots',
                 items: [
-                    'For You Page Whisperer — 9 bots for algorithmic boost (demo)',
+                    'For You Page Whisperer — 9 bots for algorithmic boost + auto video play (demo)',
                     'Watch Time Amplifier Pro — Auto video play on YouTube (demo)',
-                    'Engagement Velocity Engine — Link viewing bots (demo)',
-                    'Shorts-to-Longform Bridge — 9-bot auto viewer (demo)'
+                    'Engagement Velocity Engine — Link viewing + play bots (demo)',
+                    'Shorts-to-Longform Bridge — 9-bot auto viewer for YT (demo)'
                 ]
             },
             {
@@ -428,12 +428,12 @@
                 icon: '👥',
                 title: 'ORGANIC FOLLOWERS / LIKES / COMMENTS',
                 color: '#ff00aa',
-                desc: 'DEMO ONLY: Register and create an account to actually buy. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
+                desc: 'DEMO ONLY: This is a fictional demo. Register and create an account to actually buy the real service. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
                 price: '2.3 EUR for 9 bots',
                 items: [
-                    'Tier-1 Real Human Pods — 9 bots for engagement (demo)',
+                    'Tier-1 Real Human Pods — 9 bots for engagement + YT views (demo)',
                     'Comment Rain — Auto video play bots (demo)',
-                    'Like Avalanche — Link viewer bots (demo)',
+                    'Like Avalanche — Link viewer + play bots (demo)',
                     'Follower Drip — 9-bot YouTube automation (demo)'
                 ]
             },
@@ -442,10 +442,10 @@
                 icon: '🤖',
                 title: 'BUILD YOUR OWN BOT ARMY GUIDE',
                 color: '#00ff41',
-                desc: 'DEMO ONLY: Register and create an account to actually buy. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
+                desc: 'DEMO ONLY: This is a fictional demo. Register and create an account to actually buy the real service. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
                 price: '2.3 EUR for 9 bots',
                 items: [
-                    'The Sloth Manifesto v2 — Guide to 9-bot farm (demo)',
+                    'The Sloth Manifesto v2 — Guide to 9-bot YT auto-view farm (demo)',
                     'Account Factory 3000 — Setup for auto viewers (demo)',
                     '24/7 Node Keeper — Bot army for video play (demo)',
                     'Proxy Rotation Matrix — 9 bots YouTube automation (demo)'
@@ -533,13 +533,13 @@
             const miniInterval = setupMiniRain();
 
             const lines = [
+                'DEMO MODE — This is not real.',
+                'Register and create account to buy actual service.',
+                '2.3 EUR for 9 bots that auto-view links + play YT videos.',
                 'INITIALIZING SLOTH MATRIX BREACH PROTOCOL...',
-                'SCANNING FOR ORGANIC SIGNATURE...',
                 'ROUTING THROUGH 13 PROXY LAYERS...',
-                'DECRYPTING SLOW-PATH ALGORITHM...',
                 `DEPLOYING ${currentShop.title.split(' ').slice(0,2).join(' ')} FARM...`,
-                'INFILTRATING REAL NORDVPN NODES...',
-                'MATRIX RAIN SYNCHRONIZED. ACCESS GRANTED.'
+                'MATRIX RAIN SYNCHRONIZED. DEMO ACCESS GRANTED.'
             ];
 
             let i = 0;
@@ -564,11 +564,11 @@
                     setTimeout(() => {
                         const success = document.createElement('div');
                         success.className = 'mt-2 text-[#00ff9d] font-bold text-sm glitch relative z-10';
-                        success.innerHTML = `DEMO COMPLETE. Register now for 2.3 EUR to activate 9 real bots that auto-view links &amp; play YouTube videos. MATRIX NODE ONLINE`;
+                        success.innerHTML = `DEMO COMPLETE. Register + pay 2.3 EUR to activate 9 real bots that automatically view links and play YouTube videos. MATRIX NODE ONLINE`;
                         matrixDiv.appendChild(success);
 
                         updateNodeCount(Math.floor(Math.random() * 30) + 13);
-                        addLog(`PURCHASE CONFIRMED: ${currentShop.title} - DEMO (register for real)`);
+                        addLog(`DEMO PURCHASE: ${currentShop.title} — register for real 2.3 EUR / 9 bots`);
 
                         setTimeout(() => {
                             closeModal();
