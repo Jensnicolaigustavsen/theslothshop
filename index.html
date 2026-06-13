@@ -159,10 +159,19 @@
             padding: 4px;
             border: 1px solid #003300;
             min-height: 80px;
-            max-height: 120px;
+            max-height: 140px;
             overflow: auto;
             font-family: monospace;
             text-shadow: 0 0 3px #00ff41;
+            position: relative;
+        }
+
+        .mini-rain {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            opacity: 0.3;
+            z-index: 1;
         }
 
         @media (max-width: 640px) {
@@ -490,8 +499,33 @@
 
             const consoleEl = document.getElementById('action-console');
             consoleEl.classList.remove('hidden');
-            consoleEl.innerHTML = '<div id="checkout-matrix" class="matrix-console text-[#00ff41] text-xs"></div>';
+            consoleEl.innerHTML = '<canvas id="mini-rain" class="mini-rain"></canvas><div id="checkout-matrix" class="matrix-console text-[#00ff41] text-xs relative z-10"></div>';
             const matrixDiv = document.getElementById('checkout-matrix');
+            const miniCanvas = document.getElementById('mini-rain');
+            const miniCtx = miniCanvas.getContext('2d');
+
+            // Setup mini rain canvas
+            function setupMiniRain() {
+                miniCanvas.width = consoleEl.offsetWidth;
+                miniCanvas.height = 120;
+                const drops = Array(Math.floor(miniCanvas.width / 8)).fill(1);
+                const chars = matrixChars;
+
+                function drawMini() {
+                    miniCtx.fillStyle = 'rgba(0, 17, 0, 0.1)';
+                    miniCtx.fillRect(0, 0, miniCanvas.width, miniCanvas.height);
+                    miniCtx.fillStyle = '#00ff41';
+                    miniCtx.font = '10px monospace';
+                    for (let i = 0; i < drops.length; i++) {
+                        const char = chars[Math.floor(Math.random() * chars.length)];
+                        miniCtx.fillText(char, i * 8, drops[i] * 8);
+                        if (drops[i] * 8 > miniCanvas.height && Math.random() > 0.975) drops[i] = 0;
+                        drops[i]++;
+                    }
+                }
+                return setInterval(drawMini, 60);
+            }
+            const miniInterval = setupMiniRain();
 
             const lines = [
                 'INITIALIZING SLOTH MATRIX BREACH PROTOCOL...',
@@ -508,22 +542,23 @@
                 if (i < lines.length) {
                     const scrambled = lines[i].replace(/./g, (c, idx) => (idx % 3 === 0 && Math.random() > 0.5) ? matrixChars[Math.floor(Math.random() * matrixChars.length)] : c);
                     const lineEl = document.createElement('div');
-                    lineEl.className = 'mb-0.5';
+                    lineEl.className = 'mb-0.5 relative z-10';
                     lineEl.innerHTML = `&gt; ${scrambled}`;
                     matrixDiv.appendChild(lineEl);
                     matrixDiv.scrollTop = matrixDiv.scrollHeight;
 
                     setTimeout(() => {
                         lineEl.innerHTML = `&gt; ${lines[i]}`;
-                    }, 150);
+                    }, 120);
 
                     i++;
                 } else {
                     clearInterval(interval);
+                    clearInterval(miniInterval);
                     
                     setTimeout(() => {
                         const success = document.createElement('div');
-                        success.className = 'mt-2 text-[#00ff9d] font-bold text-sm glitch';
+                        success.className = 'mt-2 text-[#00ff9d] font-bold text-sm glitch relative z-10';
                         success.innerHTML = `ACCESS GRANTED // +${Math.floor(Math.random() * 30) + 13} NODES DEPLOYED<br>MATRIX NODE ONLINE`;
                         matrixDiv.appendChild(success);
 
@@ -533,9 +568,9 @@
                         setTimeout(() => {
                             closeModal();
                         }, 1400);
-                    }, 400);
+                    }, 300);
                 }
-            }, 260);
+            }, 220);
         }
 
         // ========== LIVE MATRIX LOG ==========
