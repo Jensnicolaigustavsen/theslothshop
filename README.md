@@ -31,7 +31,7 @@ Related: [thesloth](https://github.com/Jensnicolaigustavsen/thesloth)
 
 ## Meta
 
-This is a **personal creative / fictional cyberpunk project**. Not a real store. Everything here is satirical and for the aesthetic.
+This is a **personal creative / fictional cyberpunk project**. Not a real store YET. Everything here is satirical and for the aesthetic.
 
 Press **M** on the homepage for extra matrix rain.
 
