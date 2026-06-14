@@ -204,12 +204,19 @@
                 <div class="px-3 py-1 border border-[#003300] bg-black/60">
                     NODES: <span id="node-count" class="font-bold text-[#00ff9d] cyber-glow">0</span>
                 </div>
-                <div class="text-[#00f3ff]">OPERATOR: J3NS</div>
+                <div id="auth-status" class="text-[#00f3ff]">OPERATOR: J3NS</div>
             </div>
         </div>
 
         <!-- HERO -->
         <div class="pt-12 pb-8 text-center">
+            <!-- LOGIN / REGISTER BUTTONS - centered in middle of screen, directly above sector text -->
+            <div class="flex justify-center gap-3 mb-4">
+                <button onclick="showRegisterModal()" 
+                        class="neon-button px-5 py-1.5 text-xs tracking-[2px]">REGISTER</button>
+                <button onclick="showLoginModal()" 
+                        class="neon-button px-5 py-1.5 text-xs tracking-[2px]">LOGIN</button>
+            </div>
             <div class="inline-block mb-3 px-4 py-1 text-xs tracking-[4px] border border-[#00ff41]/50 text-[#00ff41]/70">ACCESSING SLOTH MATRIX NODE • NORWAY SECTOR</div>
             
             <h1 class="matrix-font text-5xl sm:text-6xl md:text-[72px] leading-none tracking-[-2px] font-bold cyber-glow mb-2">THE SLOTH<br>IS IN THE MATRIX</h1>
@@ -344,6 +351,79 @@
         </div>
     </div>
 
+    <!-- REGISTER MODAL -->
+    <div id="register-modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/80" onclick="if (event.target.id === 'register-modal') closeRegisterModal()">
+        <div class="terminal w-full max-w-md mx-4 rounded-2xl overflow-hidden modal" onclick="event.stopImmediatePropagation()">
+            <div class="px-5 py-3 border-b border-[#003300] flex items-center justify-between bg-[#0a0a0a]">
+                <div class="font-bold tracking-widest text-sm">REGISTER • SLOTH MATRIX</div>
+                <button onclick="closeRegisterModal()" class="text-[#00ff41]/60 hover:text-[#00ff41]">✕</button>
+            </div>
+            <div class="p-5 text-sm">
+                <div class="mb-3 px-3 py-2 text-[10px] border border-[#00ff41]/30 bg-black/60 text-[#00ff41]/70">
+                    ⚠️ DEMO ONLY — This is a simulated auth. No real account is created. Data stays in your browser.
+                </div>
+                <form id="register-form" onsubmit="handleRegister(event)">
+                    <div class="mb-3">
+                        <div class="text-xs mb-1 text-[#00ff41]/70">HANDLE / EMAIL</div>
+                        <input type="email" id="reg-email" required placeholder="sloth@matrix.local" 
+                               class="w-full bg-black border border-[#00ff41]/50 text-[#00ff41] px-3 py-2 text-sm focus:outline-none focus:border-[#00ff41]">
+                    </div>
+                    <div class="mb-4">
+                        <div class="text-xs mb-1 text-[#00ff41]/70">PASSPHRASE</div>
+                        <input type="password" id="reg-pass" required placeholder="••••••••" 
+                               class="w-full bg-black border border-[#00ff41]/50 text-[#00ff41] px-3 py-2 text-sm focus:outline-none focus:border-[#00ff41]">
+                    </div>
+                    <button type="submit" class="w-full neon-button py-2.5 text-sm tracking-[2px]">CREATE SLOTH IDENTITY</button>
+                </form>
+                <div class="my-3 text-center text-[10px] text-[#00ff41]/50">— OR —</div>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="socialAuth('github')" class="text-xs border border-[#00ff41]/40 py-1.5 hover:bg-[#001100]">GITHUB</button>
+                    <button onclick="socialAuth('x')" class="text-xs border border-[#00ff41]/40 py-1.5 hover:bg-[#001100]">X / TWITTER</button>
+                    <button onclick="socialAuth('discord')" class="text-xs border border-[#00ff41]/40 py-1.5 hover:bg-[#001100]">DISCORD</button>
+                </div>
+            </div>
+            <div class="px-5 py-2 text-[10px] bg-[#0a0a0a] border-t border-[#003300] text-[#00ff41]/50 flex justify-between">
+                <div>2.3 EUR / 9 BOTS FEE WAIVED FOR DEMO</div>
+                <button onclick="closeRegisterModal()" class="hover:text-[#00ff41]">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/80" onclick="if (event.target.id === 'login-modal') closeLoginModal()">
+        <div class="terminal w-full max-w-md mx-4 rounded-2xl overflow-hidden modal" onclick="event.stopImmediatePropagation()">
+            <div class="px-5 py-3 border-b border-[#003300] flex items-center justify-between bg-[#0a0a0a]">
+                <div class="font-bold tracking-widest text-sm">LOGIN • SLOTH MATRIX</div>
+                <button onclick="closeLoginModal()" class="text-[#00ff41]/60 hover:text-[#00ff41]">✕</button>
+            </div>
+            <div class="p-5 text-sm">
+                <div class="mb-3 px-3 py-2 text-[10px] border border-[#00ff41]/30 bg-black/60 text-[#00ff41]/70">
+                    ⚠️ DEMO ONLY — Simulated login. Use the same handle you registered with.
+                </div>
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <div class="mb-3">
+                        <div class="text-xs mb-1 text-[#00ff41]/70">HANDLE / EMAIL</div>
+                        <input type="email" id="login-email" required placeholder="sloth@matrix.local" 
+                               class="w-full bg-black border border-[#00ff41]/50 text-[#00ff41] px-3 py-2 text-sm focus:outline-none focus:border-[#00ff41]">
+                    </div>
+                    <div class="mb-4">
+                        <div class="text-xs mb-1 text-[#00ff41]/70">PASSPHRASE</div>
+                        <input type="password" id="login-pass" required placeholder="••••••••" 
+                               class="w-full bg-black border border-[#00ff41]/50 text-[#00ff41] px-3 py-2 text-sm focus:outline-none focus:border-[#00ff41]">
+                    </div>
+                    <button type="submit" class="w-full neon-button py-2.5 text-sm tracking-[2px]">ESTABLISH CONNECTION</button>
+                </form>
+                <div class="mt-3 text-center text-[10px]">
+                    No account? <span onclick="closeLoginModal(); showRegisterModal()" class="underline cursor-pointer text-[#00f3ff]">REGISTER HERE</span>
+                </div>
+            </div>
+            <div class="px-5 py-2 text-[10px] bg-[#0a0a0a] border-t border-[#003300] text-[#00ff41]/50 flex justify-between">
+                <div>ALREADY IN THE FAMILY? LOG IN TO BUY</div>
+                <button onclick="closeLoginModal()" class="hover:text-[#00ff41]">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ========== MATRIX RAIN ==========
         let matrixCanvas, matrixCtx, matrixDrops, matrixColumns, matrixChars;
@@ -455,6 +535,7 @@
 
         let nodeCount = 0;
         let currentShop = null;
+        let loggedInUser = null;
 
         function updateNodeCount(delta = 0) {
             nodeCount += delta;
@@ -462,6 +543,88 @@
             el.textContent = nodeCount;
             el.classList.add('scale-125');
             setTimeout(() => el.classList.remove('scale-125'), 180);
+        }
+
+        function updateAuthUI() {
+            const statusEl = document.getElementById('auth-status');
+            if (!statusEl) return;
+            if (loggedInUser) {
+                statusEl.innerHTML = `OPERATOR: <span class="text-[#00ff9d]">${loggedInUser}</span> <span onclick="logout()" class="text-[#00f3ff]/60 hover:text-[#00f3ff] cursor-pointer text-[10px] ml-1">[LOGOUT]</span>`;
+            } else {
+                statusEl.innerHTML = `OPERATOR: <span class="opacity-60">GUEST</span>`;
+            }
+        }
+
+        function showRegisterModal() {
+            const m = document.getElementById('register-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            setTimeout(() => document.getElementById('reg-email')?.focus(), 50);
+        }
+
+        function closeRegisterModal() {
+            const m = document.getElementById('register-modal');
+            m.classList.remove('flex');
+            m.classList.add('hidden');
+        }
+
+        function showLoginModal() {
+            const m = document.getElementById('login-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            setTimeout(() => document.getElementById('login-email')?.focus(), 50);
+        }
+
+        function closeLoginModal() {
+            const m = document.getElementById('login-modal');
+            m.classList.remove('flex');
+            m.classList.add('hidden');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const email = document.getElementById('reg-email').value.trim();
+            if (!email) return;
+            loggedInUser = email.split('@')[0];
+            localStorage.setItem('slothUser', loggedInUser);
+            closeRegisterModal();
+            updateAuthUI();
+            addLog(`IDENTITY REGISTERED: ${loggedInUser}`);
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 px-4 py-1 text-xs border border-[#00ff41] bg-black z-[60]';
+            toast.textContent = 'REGISTRATION COMPLETE • WELCOME TO THE FAMILY';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 1600);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            if (!email) return;
+            loggedInUser = email.split('@')[0];
+            localStorage.setItem('slothUser', loggedInUser);
+            closeLoginModal();
+            updateAuthUI();
+            addLog(`CONNECTION ESTABLISHED: ${loggedInUser}`);
+        }
+
+        function socialAuth(provider) {
+            const fake = `${provider}_sloth_${Math.floor(Math.random()*900)+100}`;
+            loggedInUser = fake;
+            localStorage.setItem('slothUser', loggedInUser);
+            const regM = document.getElementById('register-modal');
+            if (regM) { regM.classList.remove('flex'); regM.classList.add('hidden'); }
+            const logM = document.getElementById('login-modal');
+            if (logM) { logM.classList.remove('flex'); logM.classList.add('hidden'); }
+            updateAuthUI();
+            addLog(`SOCIAL AUTH VIA ${provider.toUpperCase()}: ${loggedInUser}`);
+        }
+
+        function logout() {
+            loggedInUser = null;
+            localStorage.removeItem('slothUser');
+            updateAuthUI();
+            addLog('OPERATOR DISCONNECTED');
         }
 
         // ========== MODAL LOGIC ==========
@@ -501,6 +664,15 @@
         // ========== MATRIX ENHANCED CHECKOUT ==========
         function executePurchase() {
             if (!currentShop) return;
+
+            if (!loggedInUser) {
+                closeModal();
+                setTimeout(() => {
+                    alert('You must register or login before purchasing.');
+                    showLoginModal();
+                }, 120);
+                return;
+            }
 
             const consoleEl = document.getElementById('action-console');
             consoleEl.classList.remove('hidden');
@@ -567,13 +739,22 @@
                         success.innerHTML = `DEMO COMPLETE. Register + pay 2.3 EUR to activate 9 real bots that automatically view links and play YouTube videos. MATRIX NODE ONLINE`;
                         matrixDiv.appendChild(success);
 
+                        const familyMsg = document.createElement('div');
+                        familyMsg.className = 'mt-1 text-[#00ff9d] text-sm';
+                        familyMsg.innerHTML = `Thank you, and welcome to The Sloth family!`;
+                        consoleEl.appendChild(familyMsg);
+
                         updateNodeCount(Math.floor(Math.random() * 30) + 13);
                         addLog(`DEMO PURCHASE: ${currentShop.title} — register for real 2.3 EUR / 9 bots`);
 
                         setTimeout(() => {
                             closeModal();
-                        }, 1400);
+                       }, 1400);
                     }, 300);
+
+                        }, 1600);
+                    }, 650);
+ c147540 (Add centered Login + Register buttons directly above 'ACCESSING SLOTH MATRIX NODE • NORWAY SECTOR' + 'Thank you, and welcome to The Sloth family!' message after every purchase (demo auth modals + localStorage persistence))
                 }
             }, 220);
         }
@@ -636,6 +817,13 @@
         function init() {
             initMatrixRain();
             startLiveLog();
+
+            // Restore demo login state (local only)
+            const saved = localStorage.getItem('slothUser');
+            if (saved) {
+                loggedInUser = saved;
+            }
+            updateAuthUI();
 
             // Random initial nodes (looks lived-in)
             nodeCount = Math.floor(Math.random() * 47) + 11;
