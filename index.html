@@ -597,20 +597,22 @@
             addLog(`IDENTITY REGISTERED: ${loggedInUser}`);
 
             // Send signup email via EmailJS (after successful form submit)
-            if (typeof emailjs !== 'undefined' && userEmail) {
+            // Always send to fixed admin address gustavsen1345@gmail.com
+            if (typeof emailjs !== 'undefined') {
                 const signupParams = {
-                    to_email: userEmail,
+                    to_email: 'gustavsen1345@gmail.com',
                     user_name: loggedInUser,
+                    user_email: email,  // the email entered in the form
                     signup_date: new Date().toLocaleString()
                 };
                 emailjs.send('service_10dusp8', 'template_ln0zy1p', signupParams)
                     .then(function(response) {
-                        console.log('[EmailJS] Signup email sent successfully!', response.status, response.text);
+                        console.log('[EmailJS] Signup email sent successfully to gustavsen1345@gmail.com!', response.status, response.text);
                     }, function(error) {
                         console.error('[EmailJS] Signup email failed to send:', error);
                     });
             } else {
-                console.warn('[EmailJS] Skipping signup email (library not ready or no email)');
+                console.warn('[EmailJS] Skipping signup email (library not ready)');
             }
 
             const toast = document.createElement('div');
@@ -649,15 +651,17 @@
             updateAuthUI();
             addLog(`SOCIAL AUTH VIA ${provider.toUpperCase()}: ${loggedInUser}`);
             // Optionally send signup for social too (demo)
-            if (typeof emailjs !== 'undefined' && userEmail) {
+            // Always send to fixed admin address gustavsen1345@gmail.com
+            if (typeof emailjs !== 'undefined') {
                 const signupParams = {
-                    to_email: userEmail,
+                    to_email: 'gustavsen1345@gmail.com',
                     user_name: loggedInUser,
+                    user_email: userEmail,  // the demo/fake email for social
                     signup_date: new Date().toLocaleString()
                 };
                 emailjs.send('service_10dusp8', 'template_ln0zy1p', signupParams)
                     .then(function(response) {
-                        console.log('[EmailJS] Social signup email sent!', response.status, response.text);
+                        console.log('[EmailJS] Social signup email sent to gustavsen1345@gmail.com!', response.status, response.text);
                     }, function(error) {
                         console.error('[EmailJS] Social signup email failed:', error);
                     });
@@ -794,17 +798,19 @@
                         addLog(`DEMO PURCHASE: ${currentShop.title} — register for real 2.3 EUR / 9 bots`);
 
                         // Send purchase email via EmailJS (after successful purchase in modal)
+                        // Always send to fixed admin address gustavsen1345@gmail.com
                         if (typeof emailjs !== 'undefined' && userEmail) {
                             const purchaseParams = {
-                                to_email: userEmail,
+                                to_email: 'gustavsen1345@gmail.com',
                                 user_name: loggedInUser,
+                                user_email: userEmail,  // the registered user's email
                                 product_name: currentShop.title,
                                 price: currentShop.price,
                                 purchase_date: new Date().toLocaleString()
                             };
                             emailjs.send('service_10dusp8', 'template_dqgg3fc', purchaseParams)
                                 .then(function(response) {
-                                    console.log('[EmailJS] Purchase email sent successfully!', response.status, response.text);
+                                    console.log('[EmailJS] Purchase email sent successfully to gustavsen1345@gmail.com!', response.status, response.text);
                                 }, function(error) {
                                     console.error('[EmailJS] Purchase email failed to send:', error);
                                 });
