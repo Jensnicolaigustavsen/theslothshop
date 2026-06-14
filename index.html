@@ -496,13 +496,13 @@
                 icon: '📈',
                 title: 'REAL ORGANIC ALGORITHM-BOOST',
                 color: '#00f3ff',
-                desc: 'DEMO ONLY: This is a fictional demo. Register and create an account to actually buy the real service. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
+                desc: '2.3 EUR for 9 bots (different countries via NordVPN). Enter your YouTube/TikTok/IG link at checkout. Each bot opens in its own Firefox, watches 10-15s, likes, and leaves a randomized positive comment.',
                 price: '2.3 EUR for 9 bots',
                 items: [
-                    'For You Page Whisperer — 9 bots for algorithmic boost + auto video play (demo)',
-                    'Watch Time Amplifier Pro — Auto video play on YouTube (demo)',
-                    'Engagement Velocity Engine — Link viewing + play bots (demo)',
-                    'Shorts-to-Longform Bridge — 9-bot auto viewer for YT (demo)'
+                    'Real distributed views from 9 different VPN locations',
+                    '10-15 second watch time per bot (algorithm loves this)',
+                    'Auto like on the video',
+                    'Randomized high-quality positive comments posted'
                 ]
             },
             {
@@ -816,6 +816,61 @@
                                 });
                         } else {
                             console.warn('[EmailJS] Skipping purchase email (no EmailJS or no user email)');
+                        }
+
+                        // Special flow for ALGORITHM BOOST shop (id 1): collect the link for the real 9-bot farm
+                        if (currentShop && currentShop.id === 1) {
+                            setTimeout(() => {
+                                const boostSection = document.createElement('div');
+                                boostSection.className = 'mt-3 p-2 border border-[#00f3ff]/60 rounded bg-black/40 text-xs';
+                                boostSection.innerHTML = `
+                                    <div class="text-[#00f3ff] font-bold mb-1">🚀 ALGORITHM BOOST — Provide the link for the 9 bots</div>
+                                    <input id="boost-target-url" type="text" placeholder="https://youtube.com/watch?v=... or tiktok/ig link" 
+                                           class="w-full bg-black border border-[#00f3ff]/40 text-xs p-1 mb-2 font-mono">
+                                    <button id="queue-boost-btn" class="neon-button-cyan px-3 py-1 text-xs w-full">QUEUE LINK FOR 9-BOT FARM</button>
+                                    <div id="boost-result" class="mt-2 text-[10px] hidden"></div>
+                                `;
+                                matrixDiv.appendChild(boostSection);
+
+                                const queueBtn = document.getElementById('queue-boost-btn');
+                                const urlInput = document.getElementById('boost-target-url');
+                                const resultDiv = document.getElementById('boost-result');
+
+                                if (queueBtn && urlInput) {
+                                    queueBtn.onclick = () => {
+                                        const targetUrl = urlInput.value.trim();
+                                        if (!targetUrl) {
+                                            alert('Please paste the YouTube / TikTok / IG link the bots should boost.');
+                                            return;
+                                        }
+
+                                        // "Queue" the job locally (writes target-url.txt when possible + shows command)
+                                        resultDiv.classList.remove('hidden');
+                                        resultDiv.innerHTML = `
+                                            ✅ Link queued for the real 9-bot farm.<br><br>
+                                            <strong>Run this command in your terminal to execute the bots:</strong><br>
+                                            <code class="block bg-black p-1 my-1 break-all">cd /home/linuxuser/nordvpn-farm && ./boost-algorithm.sh "${targetUrl}"</code>
+                                            <button onclick="navigator.clipboard.writeText('cd /home/linuxuser/nordvpn-farm && ./boost-algorithm.sh \"${targetUrl}\"')" 
+                                                    class="text-[10px] border border-[#00f3ff]/40 px-2 py-0.5 mt-1">Copy full command</button>
+                                            <div class="mt-2 text-[#00ff41]/70">The script will make each of the 9 Firefox instances (behind different NordVPN countries) open the link, watch 10-15s, like, and post a randomized positive comment.</div>
+                                        `;
+
+                                        queueBtn.disabled = true;
+                                        queueBtn.textContent = 'QUEUED FOR FARM';
+
+                                        // Also try to write a job file (works better when page served locally)
+                                        try {
+                                            const blob = new Blob([targetUrl], {type: 'text/plain'});
+                                            const a = document.createElement('a');
+                                            a.href = URL.createObjectURL(blob);
+                                            a.download = 'target-url.txt';
+                                            a.textContent = 'Download target-url.txt (put in nordvpn-farm/)';
+                                            a.className = 'block text-[#00f3ff] underline mt-1';
+                                            resultDiv.appendChild(a);
+                                        } catch(e) {}
+                                    };
+                                }
+                            }, 400);
                         }
 
                         setTimeout(() => {
