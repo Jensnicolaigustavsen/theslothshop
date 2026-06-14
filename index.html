@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>theslothshop // MATRIX v0.8</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&amp;family=Share+Tech+Mono&amp;display=swap');
         
@@ -536,6 +538,7 @@
         let nodeCount = 0;
         let currentShop = null;
         let loggedInUser = null;
+        let userEmail = null;
 
         function updateNodeCount(delta = 0) {
             nodeCount += delta;
@@ -586,10 +589,30 @@
             const email = document.getElementById('reg-email').value.trim();
             if (!email) return;
             loggedInUser = email.split('@')[0];
+            userEmail = email;
             localStorage.setItem('slothUser', loggedInUser);
+            localStorage.setItem('slothUserEmail', userEmail);
             closeRegisterModal();
             updateAuthUI();
             addLog(`IDENTITY REGISTERED: ${loggedInUser}`);
+
+            // Send signup email via EmailJS (after successful form submit)
+            if (typeof emailjs !== 'undefined' && userEmail) {
+                const signupParams = {
+                    to_email: userEmail,
+                    user_name: loggedInUser,
+                    signup_date: new Date().toLocaleString()
+                };
+                emailjs.send('service_10dusp8', 'template_ln0zy1p', signupParams)
+                    .then(function(response) {
+                        console.log('[EmailJS] Signup email sent successfully!', response.status, response.text);
+                    }, function(error) {
+                        console.error('[EmailJS] Signup email failed to send:', error);
+                    });
+            } else {
+                console.warn('[EmailJS] Skipping signup email (library not ready or no email)');
+            }
+
             const toast = document.createElement('div');
             toast.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 px-4 py-1 text-xs border border-[#00ff41] bg-black z-[60]';
             toast.textContent = 'REGISTRATION COMPLETE • WELCOME TO THE FAMILY';
@@ -603,6 +626,11 @@
             if (!email) return;
             loggedInUser = email.split('@')[0];
             localStorage.setItem('slothUser', loggedInUser);
+            // ensure email is loaded for EmailJS on purchase
+            if (!userEmail) {
+                const storedEmail = localStorage.getItem('slothUserEmail');
+                if (storedEmail) userEmail = storedEmail;
+            }
             closeLoginModal();
             updateAuthUI();
             addLog(`CONNECTION ESTABLISHED: ${loggedInUser}`);
@@ -611,18 +639,36 @@
         function socialAuth(provider) {
             const fake = `${provider}_sloth_${Math.floor(Math.random()*900)+100}`;
             loggedInUser = fake;
+            userEmail = fake + '@sloth.local';  // demo email for social auth
             localStorage.setItem('slothUser', loggedInUser);
+            localStorage.setItem('slothUserEmail', userEmail);
             const regM = document.getElementById('register-modal');
             if (regM) { regM.classList.remove('flex'); regM.classList.add('hidden'); }
             const logM = document.getElementById('login-modal');
             if (logM) { logM.classList.remove('flex'); logM.classList.add('hidden'); }
             updateAuthUI();
             addLog(`SOCIAL AUTH VIA ${provider.toUpperCase()}: ${loggedInUser}`);
+            // Optionally send signup for social too (demo)
+            if (typeof emailjs !== 'undefined' && userEmail) {
+                const signupParams = {
+                    to_email: userEmail,
+                    user_name: loggedInUser,
+                    signup_date: new Date().toLocaleString()
+                };
+                emailjs.send('service_10dusp8', 'template_ln0zy1p', signupParams)
+                    .then(function(response) {
+                        console.log('[EmailJS] Social signup email sent!', response.status, response.text);
+                    }, function(error) {
+                        console.error('[EmailJS] Social signup email failed:', error);
+                    });
+            }
         }
 
         function logout() {
             loggedInUser = null;
+            userEmail = null;
             localStorage.removeItem('slothUser');
+            localStorage.removeItem('slothUserEmail');
             updateAuthUI();
             addLog('OPERATOR DISCONNECTED');
         }
@@ -747,6 +793,25 @@
                         updateNodeCount(Math.floor(Math.random() * 30) + 13);
                         addLog(`DEMO PURCHASE: ${currentShop.title} — register for real 2.3 EUR / 9 bots`);
 
+                        // Send purchase email via EmailJS (after successful purchase in modal)
+                        if (typeof emailjs !== 'undefined' && userEmail) {
+                            const purchaseParams = {
+                                to_email: userEmail,
+                                user_name: loggedInUser,
+                                product_name: currentShop.title,
+                                price: currentShop.price,
+                                purchase_date: new Date().toLocaleString()
+                            };
+                            emailjs.send('service_10dusp8', 'template_dqgg3fc', purchaseParams)
+                                .then(function(response) {
+                                    console.log('[EmailJS] Purchase email sent successfully!', response.status, response.text);
+                                }, function(error) {
+                                    console.error('[EmailJS] Purchase email failed to send:', error);
+                                });
+                        } else {
+                            console.warn('[EmailJS] Skipping purchase email (no EmailJS or no user email)');
+                        }
+
                         setTimeout(() => {
                             closeModal();
                         }, 1400);
@@ -811,13 +876,25 @@
 
         // ========== INIT ==========
         function init() {
+            // Initialize EmailJS on page load
+            if (typeof emailjs !== 'undefined') {
+                emailjs.init('y39FNO7TLmrbmVou0');
+                console.log('[EmailJS] Initialized successfully');
+            } else {
+                console.error('[EmailJS] Library not loaded');
+            }
+
             initMatrixRain();
             startLiveLog();
 
             // Restore demo login state (local only)
             const saved = localStorage.getItem('slothUser');
+            const savedEmail = localStorage.getItem('slothUserEmail');
             if (saved) {
                 loggedInUser = saved;
+            }
+            if (savedEmail) {
+                userEmail = savedEmail;
             }
             updateAuthUI();
 
