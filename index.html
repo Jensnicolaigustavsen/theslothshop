@@ -183,13 +183,13 @@
 </head>
 <body class="min-h-screen overflow-x-hidden bg-black text-[#00ff41] crt scanline">
     <!-- MATRIX RAIN CANVAS -->
-    <canvas id="matrix-rain" class="fixed inset-0 z-0 opacity-[0.22] pointer-events-none"></canvas>
+    <canvas id="matrix-rain" class="fixed inset-0 z-0 opacity-[0.65] pointer-events-none"></canvas>
 
     <div class="relative z-10 max-w-[1100px] mx-auto px-5">
         <!-- TOP TERMINAL BAR -->
         <div class="flex items-center justify-between py-4 border-b border-[#003300]">
             <div class="flex items-center gap-x-3">
-                <div class="w-8 h-8 border border-[#00ff41] flex items-center justify-center text-xl">🦥</div>
+                <div class="w-8 h-8 border border-[#00ff41] flex items-center justify-center text-xl">🦚</div>
                 <div>
                     <span class="matrix-font text-2xl sm:text-3xl font-bold tracking-[3px] cyber-glow">THESLOTHSHOP</span>
                     <span class="ml-2 text-xs px-2 py-0.5 border border-[#00ff41] text-[#00ff41]">v0.8 // MATRIX</span>
@@ -212,9 +212,9 @@
         <div class="pt-12 pb-8 text-center">
             <!-- LOGIN / REGISTER BUTTONS - centered in middle of screen, directly above sector text -->
             <div class="flex justify-center gap-3 mb-4">
-                <button onclick="showRegisterModal()" 
+                <button id="btn-register" 
                         class="neon-button px-5 py-1.5 text-xs tracking-[2px]">REGISTER</button>
-                <button onclick="showLoginModal()" 
+                <button id="btn-login" 
                         class="neon-button px-5 py-1.5 text-xs tracking-[2px]">LOGIN</button>
             </div>
             <div class="inline-block mb-3 px-4 py-1 text-xs tracking-[4px] border border-[#00ff41]/50 text-[#00ff41]/70">ACCESSING SLOTH MATRIX NODE • NORWAY SECTOR</div>
@@ -239,7 +239,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-8">
             <!-- Button 1: Softwares Shop -->
-            <button onclick="openShopModal(0)" 
+            <button id="shop-0" 
                     class="neon-button shop-card text-left px-6 py-5 rounded-xl flex flex-col items-start">
                 <div class="flex items-center gap-x-3 w-full">
                     <span class="text-3xl">💾</span>
@@ -249,7 +249,7 @@
             </button>
 
             <!-- Button 2: Real organic algorithm-boost -->
-            <button onclick="openShopModal(1)" 
+            <button id="shop-1" 
                     class="neon-button neon-button-cyan shop-card text-left px-6 py-5 rounded-xl flex flex-col items-start">
                 <div class="flex items-center gap-x-3 w-full">
                     <span class="text-3xl">📈</span>
@@ -259,7 +259,7 @@
             </button>
 
             <!-- Button 3: Organic followers/likes/comments -->
-            <button onclick="openShopModal(2)" 
+            <button id="shop-2" 
                     class="neon-button neon-button-magenta shop-card text-left px-6 py-5 rounded-xl flex flex-col items-start">
                 <div class="flex items-center gap-x-3 w-full">
                     <span class="text-3xl">👥</span>
@@ -269,7 +269,7 @@
             </button>
 
             <!-- Button 4: Build your own bot army -->
-            <button onclick="openShopModal(3)" 
+            <button id="shop-3" 
                     class="neon-button shop-card text-left px-6 py-5 rounded-xl flex flex-col items-start">
                 <div class="flex items-center gap-x-3 w-full">
                     <span class="text-3xl">🤖</span>
@@ -283,7 +283,7 @@
         <div class="mb-3 flex items-center gap-3">
             <div class="section-header">LIVE MATRIX LOG</div>
             <div class="flex-1 h-px bg-gradient-to-r from-[#00ff41]/30"></div>
-            <button onclick="clearLog()" class="text-xs border border-[#003300] px-2 py-0.5 hover:bg-[#001100]">CLEAR</button>
+            <button id="btn-clear-log" class="text-xs border border-[#003300] px-2 py-0.5 hover:bg-[#001100]">CLEAR</button>
         </div>
         <div id="matrix-log" 
              class="matrix-log terminal rounded-xl p-3 font-mono text-[#00cc33] text-[12px] leading-[1.25] border border-[#003300] bg-black/70">
@@ -333,11 +333,11 @@
 
                 <!-- Big flashy action buttons -->
                 <div class="flex gap-3">
-                    <button onclick="executePurchase()" 
+                    <button id="btn-purchase" 
                             class="flex-1 neon-button py-3 text-sm font-bold tracking-[2px]">
                         EXECUTE PURCHASE // DEPLOY
                     </button>
-                    <button onclick="closeModal()" 
+                    <button id="btn-abort" 
                             class="px-6 py-3 border border-[#00ff41]/50 hover:bg-[#001100] text-xs tracking-wider">
                         ABORT
                     </button>
@@ -441,10 +441,10 @@
             window.addEventListener('resize', resize);
             resize();
 
-            matrixChars = '01アイウエオカキクケコサシスセソタチツテトナNIヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
+            matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン 0123456789$#@&*'.split('');
 
             function drawRain() {
-                matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                 matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
 
                 matrixCtx.fillStyle = '#00ff41';
@@ -732,7 +732,7 @@
                 } else {
                     clearInterval(interval);
                     clearInterval(miniInterval);
-                    
+
                     setTimeout(() => {
                         const success = document.createElement('div');
                         success.className = 'mt-2 text-[#00ff9d] font-bold text-sm glitch relative z-10';
@@ -742,19 +742,15 @@
                         const familyMsg = document.createElement('div');
                         familyMsg.className = 'mt-1 text-[#00ff9d] text-sm';
                         familyMsg.innerHTML = `Thank you, and welcome to The Sloth family!`;
-                        consoleEl.appendChild(familyMsg);
+                        matrixDiv.appendChild(familyMsg);
 
                         updateNodeCount(Math.floor(Math.random() * 30) + 13);
                         addLog(`DEMO PURCHASE: ${currentShop.title} — register for real 2.3 EUR / 9 bots`);
 
                         setTimeout(() => {
                             closeModal();
-                       }, 1400);
+                        }, 1400);
                     }, 300);
-
-                        }, 1600);
-                    }, 650);
- c147540 (Add centered Login + Register buttons directly above 'ACCESSING SLOTH MATRIX NODE • NORWAY SECTOR' + 'Thank you, and welcome to The Sloth family!' message after every purchase (demo auth modals + localStorage persistence))
                 }
             }, 220);
         }
@@ -829,6 +825,24 @@
             nodeCount = Math.floor(Math.random() * 47) + 11;
             document.getElementById('node-count').textContent = nodeCount;
 
+            // Wire interactive buttons from JS (ensures functions are defined - fixes "not defined" / script order issues)
+            const btnReg = document.getElementById('btn-register');
+            const btnLog = document.getElementById('btn-login');
+            const btnClear = document.getElementById('btn-clear-log');
+            if (btnReg) btnReg.addEventListener('click', showRegisterModal);
+            if (btnLog) btnLog.addEventListener('click', showLoginModal);
+            if (btnClear) btnClear.addEventListener('click', clearLog);
+            const s0 = document.getElementById('shop-0'); if (s0) s0.addEventListener('click', () => openShopModal(0));
+            const s1 = document.getElementById('shop-1'); if (s1) s1.addEventListener('click', () => openShopModal(1));
+            const s2 = document.getElementById('shop-2'); if (s2) s2.addEventListener('click', () => openShopModal(2));
+            const s3 = document.getElementById('shop-3'); if (s3) s3.addEventListener('click', () => openShopModal(3));
+
+            // Wire shop modal action buttons too (robustness)
+            const btnPurchase = document.getElementById('btn-purchase');
+            const btnAbort = document.getElementById('btn-abort');
+            if (btnPurchase) btnPurchase.addEventListener('click', executePurchase);
+            if (btnAbort) btnAbort.addEventListener('click', closeModal);
+
             // Welcome log
             setTimeout(() => {
                 addLog('OPERATOR CONNECTED TO THE SLOTH MATRIX');
@@ -837,15 +851,15 @@
             // Subtle rain burst on load
             setTimeout(() => {
                 const canvas = document.getElementById('matrix-rain');
-                if (canvas) canvas.style.opacity = '0.28';
+                if (canvas) canvas.style.opacity = '0.65';
             }, 600);
 
-            // Keyboard easter egg: press 'm' for matrix intensity
+            // Keyboard easter egg: press 'm' for matrix intensity (full bright)
             document.addEventListener('keydown', (e) => {
                 if (e.key.toLowerCase() === 'm') {
                     const canvas = document.getElementById('matrix-rain');
                     canvas.style.transition = 'opacity 200ms';
-                    canvas.style.opacity = canvas.style.opacity === '0.55' ? '0.22' : '0.55';
+                    canvas.style.opacity = (canvas.style.opacity === '0.85' || canvas.style.opacity === '0.85') ? '0.65' : '0.85';
                     addLog('MATRIX RAIN INTENSITY TOGGLED');
                 }
                 if (e.key === '?') {
