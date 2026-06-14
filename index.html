@@ -1,1 +1,681 @@
-The full text of /home/linuxuser/good_index.html (the complete valid HTML with the Matrix cyberpunk design, auth modals for register and login, real nordvpn-farm files, mobile polish, matrix checkout, press M hint, and demo banner, with EmailJS as comments/placeholders only, no actual keys or Shopify integration code beyond placeholder).
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>theslothshop // MATRIX v0.8</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&amp;family=Share+Tech+Mono&amp;display=swap');
+        
+        :root {
+            --matrix-green: #00ff41;
+            --matrix-cyan: #00f3ff;
+            --matrix-magenta: #ff00aa;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', 'VT323', monospace;
+            background: #000000;
+            color: #00ff41;
+        }
+
+        .matrix-font {
+            font-family: 'VT323', 'Share Tech Mono', monospace;
+            letter-spacing: 2px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        .cyber-glow {
+            text-shadow: 
+                0 0 5px #00ff41,
+                0 0 10px #00ff41,
+                0 0 20px #00ff41,
+                0 0 30px #00ff41;
+        }
+
+        .cyber-glow-cyan {
+            text-shadow: 
+                0 0 5px #00f3ff,
+                0 0 15px #00f3ff;
+        }
+
+        .neon-button {
+            position: relative;
+            background: #000000;
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 1.5px;
+            transition: all 0.15s ease;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px #00ff41,
+                        inset 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+
+        .neon-button:hover {
+            background: #001100;
+            border-color: #00ff41;
+            box-shadow: 0 0 30px #00ff41,
+                        0 0 60px #00ff41,
+                        inset 0 0 20px rgba(0, 255, 65, 0.2);
+            transform: translateY(-2px) scale(1.01);
+            color: #00ff9d;
+        }
+
+        .neon-button:active {
+            transform: scale(0.985);
+            box-shadow: 0 0 10px #00ff41;
+        }
+
+        .neon-button-cyan { border-color: #00f3ff; box-shadow: 0 0 15px #00f3ff; color: #00f3ff; }
+        .neon-button-cyan:hover { border-color: #00f3ff; box-shadow: 0 0 30px #00f3ff, 0 0 60px #00f3ff; color: #7df9ff; }
+
+        .neon-button-magenta { border-color: #ff00aa; box-shadow: 0 0 15px #ff00aa; color: #ff00aa; }
+        .neon-button-magenta:hover { border-color: #ff00aa; box-shadow: 0 0 30px #ff00aa, 0 0 60px #ff00aa; color: #ff6ad5; }
+
+        .terminal {
+            background: #0a0a0a;
+            border: 1px solid #00ff41;
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.3);
+        }
+
+        .scanline {
+            position: relative;
+        }
+        .scanline::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 255, 65, 0.03) 50%
+            );
+            background-size: 100% 6px;
+            pointer-events: none;
+            z-index: 2;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 200px; }
+        }
+
+        .glitch {
+            position: relative;
+            animation: glitch 1.2s infinite linear alternate;
+        }
+
+        .matrix-text {
+            color: #00ff41;
+            text-shadow: 0 0 8px #00ff41;
+        }
+
+        .crt {
+            position: relative;
+        }
+
+        .section-header {
+            font-size: 13px;
+            letter-spacing: 4px;
+            opacity: 0.7;
+        }
+
+        .shop-card {
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .shop-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .matrix-log {
+            font-size: 12px;
+            line-height: 1.3;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .modal {
+            animation: modalPop 0.2s ease-out forwards;
+        }
+
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .cyber-text {
+            font-size: 15px;
+            line-height: 1.35;
+        }
+
+        .matrix-console {
+            background: #001100;
+            padding: 4px;
+            border: 1px solid #003300;
+            min-height: 80px;
+            max-height: 140px;
+            overflow: auto;
+            font-family: monospace;
+            text-shadow: 0 0 3px #00ff41;
+            position: relative;
+        }
+
+        .mini-rain {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        @media (max-width: 640px) {
+            .matrix-font { letter-spacing: 1px; }
+            .cyber-glow { text-shadow: 0 0 4px #00ff41, 0 0 8px #00ff41; }
+            .neon-button { padding-top: 1rem; padding-bottom: 1rem; }
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-x-hidden bg-black text-[#00ff41] crt scanline">
+    <!-- MATRIX RAIN CANVAS -->
+    <canvas id="matrix-rain" class="fixed inset-0 z-0 opacity-[0.22] pointer-events-none"></canvas>
+
+    <div class="relative z-10 max-w-[1100px] mx-auto px-5">
+        <!-- TOP TERMINAL BAR -->
+        <div class="flex items-center justify-between py-4 border-b border-[#003300]">
+            <div class="flex items-center gap-x-3">
+                <div class="w-8 h-8 border border-[#00ff41] flex items-center justify-center text-xl">🦥</div>
+                <div>
+                    <span class="matrix-font text-2xl sm:text-3xl font-bold tracking-[3px] cyber-glow">THESLOTHSHOP</span>
+                    <span class="ml-2 text-xs px-2 py-0.5 border border-[#00ff41] text-[#00ff41]">v0.8 // MATRIX</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-x-4 text-xs">
+                <div class="flex items-center gap-x-2 px-3 py-1 border border-[#003300] bg-black/60">
+                    <div class="w-1.5 h-1.5 bg-[#00ff41] rounded-full animate-pulse"></div>
+                    <span>SECURE LINK ESTABLISHED</span>
+                </div>
+                <div class="px-3 py-1 border border-[#003300] bg-black/60">
+                    NODES: <span id="node-count" class="font-bold text-[#00ff9d] cyber-glow">0</span>
+                </div>
+                <div class="text-[#00f3ff]">OPERATOR: J3NS</div>
+            </div>
+        </div>
+
+        <!-- HERO -->
+        <div class="pt-12 pb-8 text-center">
+            <div class="inline-block mb-3 px-4 py-1 text-xs tracking-[4px] border border-[#00ff41]/50 text-[#00ff41]/70">ACCESSING SLOTH MATRIX NODE • NORWAY SECTOR</div>
+            
+            <h1 class="matrix-font text-5xl sm:text-6xl md:text-[72px] leading-none tracking-[-2px] font-bold cyber-glow mb-2">THE SLOTH<br>IS IN THE MATRIX</h1>
+            
+            <p class="max-w-md mx-auto text-[#00ff41]/80 text-base sm:text-lg">Slow. Organic. Unbreakable.<br>Real growth at 0.3x speed.</p>
+
+            <div class="mt-6 flex justify-center gap-3 text-xs">
+                <div class="px-4 py-2 border border-[#00ff41]/60">STATUS: <span class="text-[#00ff9d]">ONLINE</span></div>
+                <div class="px-4 py-2 border border-[#00ff41]/60">LATENCY: 420ms (SLOTH APPROVED)</div>
+            </div>
+
+            <div class="mt-2 text-[10px] text-[#00ff41]/60">Press <span class="font-bold">M</span> for more Matrix rain</div>
+        </div>
+
+        <!-- SHOPS SECTION -->
+        <div class="mb-4 flex items-center gap-3">
+            <div class="section-header">MAINFRAME // AVAILABLE PROTOCOLS</div>
+            <div class="flex-1 h-px bg-gradient-to-r from-[#00ff41]/30 to-transparent"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-8">
+            <!-- Button 1: Softwares Shop -->
+            <button onclick="openShopModal(0)" 
+                    class="neon-button shop-card text-left px-6 py-5 rounded-xl flex flex-col items-start">
+                <div class="flex items-center gap-x-3 w-full">
+                    <span class="text-3xl">💾</span>
+                    <span class="font-bold text-xl tracking-wider">SOFTWARES SHOP</span>
+                </div>
+                <div class="mt-2 text-xs text-[#00ff41]/70 pl-11">DEMO: Register for real 9-bot service (2.3 EUR)</div>
+            </button>
+
+            <!-- Button 2: Real organic algorithm-boost -->
+            <button onclick="openShopModal(1)" 
+                    class="neon-button neon-button-cyan shop-card text-left px-6 py-5 rounded-xl flex flex-col items-start">
+                <div class="flex items-center gap-x-3 w-full">
+                    <span class="text-3xl">📈</span>
+                    <span class="font-bold text-xl tracking-wider leading-tight">REAL ORGANIC ALGORITHM-BOOST SHOP<br><span class="text-sm font-normal opacity-75">(youtube • tiktok • instagram etc)</span></span>
+                </div>
+                <div class="mt-2 text-xs text-[#00f3ff]/70 pl-11">DEMO: Register for real 9-bot service (2.3 EUR)</div>
+            </button>
+
+            <!-- Button 3: Organic followers/likes/comments -->
+            <button onclick="openShopModal(2)" 
+                    class="neon-button neon-button-magenta shop-card text-left px-6 py-5 rounded-xl flex flex-col items-start">
+                <div class="flex items-center gap-x-3 w-full">
+                    <span class="text-3xl">👥</span>
+                    <span class="font-bold text-xl tracking-wider">ORGANIC FOLLOWERS / LIKES / COMMENTS SHOP</span>
+                </div>
+                <div class="mt-2 text-xs text-[#ff00aa]/70 pl-11">DEMO: Register for real 9-bot service (2.3 EUR)</div>
+            </button>
+
+            <!-- Button 4: Build your own bot army -->
+            <button onclick="openShopModal(3)" 
+                    class="neon-button shop-card text-left px-6 py-5 rounded-xl flex flex-col items-start">
+                <div class="flex items-center gap-x-3 w-full">
+                    <span class="text-3xl">🤖</span>
+                    <span class="font-bold text-xl tracking-wider leading-tight">BUILD YOUR OWN BOT ARMY GUIDE SHOP</span>
+                </div>
+                <div class="mt-2 text-xs text-[#00ff41]/70 pl-11">DEMO: Register for real 9-bot service (2.3 EUR)</div>
+            </button>
+        </div>
+
+        <!-- LIVE MATRIX LOG -->
+        <div class="mb-3 flex items-center gap-3">
+            <div class="section-header">LIVE MATRIX LOG</div>
+            <div class="flex-1 h-px bg-gradient-to-r from-[#00ff41]/30"></div>
+            <button onclick="clearLog()" class="text-xs border border-[#003300] px-2 py-0.5 hover:bg-[#001100]">CLEAR</button>
+        </div>
+        <div id="matrix-log" 
+             class="matrix-log terminal rounded-xl p-3 font-mono text-[#00cc33] text-[12px] leading-[1.25] border border-[#003300] bg-black/70">
+        </div>
+
+        <!-- FOOTER -->
+        <div class="pt-8 pb-10 text-center text-[10px] text-[#00ff41]/50">
+            THE SLOTH NEVER RUSHES. • Press M for more Matrix rain • PERSONAL CREATIVE / FICTIONAL CYBERPUNK PROJECT • NOT A REAL STORE • ALL SERVICES ARE SATIRICAL
+            <br>
+            <span class="text-[#00ff41]/40">Open index.html directly for the full experience. Raw link available in repo.</span>
+        </div>
+    </div>
+
+    <!-- CYBER TERMINAL MODAL -->
+    <div id="modal" onclick="if (event.target.id === 'modal') closeModal()" 
+         class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="modal w-full max-w-[620px] terminal rounded-2xl border border-[#00ff41] shadow-2xl shadow-[#00ff41]/30 overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-5 py-3 bg-[#0a0a0a] border-b border-[#00ff41]/60">
+                <div class="flex items-center gap-x-2">
+                    <span id="modal-icon" class="text-2xl"></span>
+                    <span id="modal-title" class="font-bold tracking-widest text-lg"></span>
+                </div>
+                <button onclick="closeModal()" 
+                        class="text-[#00ff41]/70 hover:text-[#00ff41] px-3 py-1 text-xl leading-none">&times;</button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-5">
+                <div class="bg-[#112200] border border-[#334400] p-2 mb-3 text-[11px] text-[#aaffaa] font-mono">
+                    ⚠️ <strong>DEMO ONLY</strong> — This is a fictional demo site. You must register and create an account to actually buy. <strong>2.3 EUR for 9 bots</strong> that automatically view the links and play the videos (YouTube).
+                </div>
+                <div id="modal-desc" class="text-sm text-[#00ff41]/85 mb-4 leading-relaxed"></div>
+
+                <!-- Terminal output area -->
+                <div class="bg-black border border-[#003300] rounded-xl p-3 mb-4 font-mono text-xs">
+                    <div class="text-[#00ff41]/50 mb-1.5">// NODE CATALOG — LOADED FROM SLOTH MATRIX</div>
+                    <div id="modal-items" class="space-y-1 text-[#00cc33]"></div>
+                </div>
+
+                <!-- Action console -->
+                <div id="action-console" 
+                     class="hidden mb-4 text-xs bg-black/80 border border-[#00ff41]/40 rounded-xl p-3 font-mono text-[#00ff41]">
+                </div>
+
+                <!-- Big flashy action buttons -->
+                <div class="flex gap-3">
+                    <button onclick="executePurchase()" 
+                            class="flex-1 neon-button py-3 text-sm font-bold tracking-[2px]">
+                        EXECUTE PURCHASE // DEPLOY
+                    </button>
+                    <button onclick="closeModal()" 
+                            class="px-6 py-3 border border-[#00ff41]/50 hover:bg-[#001100] text-xs tracking-wider">
+                        ABORT
+                    </button>
+                </div>
+            </div>
+
+            <div class="px-5 py-2 text-[10px] bg-[#0a0a0a] border-t border-[#003300] text-[#00ff41]/50 flex justify-between">
+                <div>PRICE: <span id="modal-price" class="font-bold text-[#00ff9d]"></span></div>
+                <div>EST. DELIVERY: 3–5 SLOTH DAYS</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== MATRIX RAIN ==========
+        let matrixCanvas, matrixCtx, matrixDrops, matrixColumns, matrixChars;
+
+        function initMatrixRain() {
+            matrixCanvas = document.getElementById('matrix-rain');
+            matrixCtx = matrixCanvas.getContext('2d');
+
+            function resize() {
+                matrixCanvas.width = window.innerWidth;
+                matrixCanvas.height = window.innerHeight;
+                matrixColumns = Math.floor(matrixCanvas.width / 15);
+                matrixDrops = Array(matrixColumns).fill(1);
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            matrixChars = '01アイウエオカキクケコサシスセソタチツテトナNIヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
+
+            function drawRain() {
+                matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+                matrixCtx.fillStyle = '#00ff41';
+                matrixCtx.font = '14px monospace';
+
+                for (let i = 0; i < matrixDrops.length; i++) {
+                    const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                    const x = i * 15;
+                    const y = matrixDrops[i] * 15;
+
+                    matrixCtx.fillText(char, x, y);
+
+                    if (y > matrixCanvas.height && Math.random() > 0.975) {
+                        matrixDrops[i] = 0;
+                    }
+                    matrixDrops[i]++;
+                }
+            }
+
+            setInterval(drawRain, 45);
+            // Initial burst
+            setTimeout(() => {
+                for (let i = 0; i < 6; i++) {
+                    matrixDrops[Math.floor(Math.random() * matrixDrops.length)] = Math.floor(Math.random() * 20);
+                }
+            }, 800);
+        }
+
+        // ========== SHOP DATA ==========
+        const shops = [
+            {
+                id: 0,
+                icon: '💾',
+                title: 'SOFTWARES SHOP',
+                color: '#00ff41',
+                desc: 'DEMO ONLY: This is a fictional demo. Register and create an account to actually buy the real service. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
+                price: '2.3 EUR for 9 bots',
+                items: [
+                    'nordvpn-farm/docker-compose.yml — 9-node Gluetun + Firefox farm (demo of the bot runner)',
+                    'nordvpn-farm/nord-farm.yml — Alternative config (demo)',
+                    'nordvpn-farm/run-all.sh — Script for 9 bots to auto view/play (demo)',
+                    'nordvpn-farm/restart-all.sh — Manage your 9 bots (demo)'
+                ]
+            },
+            {
+                id: 1,
+                icon: '📈',
+                title: 'REAL ORGANIC ALGORITHM-BOOST',
+                color: '#00f3ff',
+                desc: 'DEMO ONLY: This is a fictional demo. Register and create an account to actually buy the real service. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
+                price: '2.3 EUR for 9 bots',
+                items: [
+                    'For You Page Whisperer — 9 bots for algorithmic boost + auto video play (demo)',
+                    'Watch Time Amplifier Pro — Auto video play on YouTube (demo)',
+                    'Engagement Velocity Engine — Link viewing + play bots (demo)',
+                    'Shorts-to-Longform Bridge — 9-bot auto viewer for YT (demo)'
+                ]
+            },
+            {
+                id: 2,
+                icon: '👥',
+                title: 'ORGANIC FOLLOWERS / LIKES / COMMENTS',
+                color: '#ff00aa',
+                desc: 'DEMO ONLY: This is a fictional demo. Register and create an account to actually buy the real service. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
+                price: '2.3 EUR for 9 bots',
+                items: [
+                    'Tier-1 Real Human Pods — 9 bots for engagement + YT views (demo)',
+                    'Comment Rain — Auto video play bots (demo)',
+                    'Like Avalanche — Link viewer + play bots (demo)',
+                    'Follower Drip — 9-bot YouTube automation (demo)'
+                ]
+            },
+            {
+                id: 3,
+                icon: '🤖',
+                title: 'BUILD YOUR OWN BOT ARMY GUIDE',
+                color: '#00ff41',
+                desc: 'DEMO ONLY: This is a fictional demo. Register and create an account to actually buy the real service. 2.3 EUR for 9 bots that automatically view the links and play the videos (YouTube).',
+                price: '2.3 EUR for 9 bots',
+                items: [
+                    'The Sloth Manifesto v2 — Guide to 9-bot YT auto-view farm (demo)',
+                    'Account Factory 3000 — Setup for auto viewers (demo)',
+                    '24/7 Node Keeper — Bot army for video play (demo)',
+                    'Proxy Rotation Matrix — 9 bots YouTube automation (demo)'
+                ]
+            }
+        ];
+
+        let nodeCount = 0;
+        let currentShop = null;
+
+        function updateNodeCount(delta = 0) {
+            nodeCount += delta;
+            const el = document.getElementById('node-count');
+            el.textContent = nodeCount;
+            el.classList.add('scale-125');
+            setTimeout(() => el.classList.remove('scale-125'), 180);
+        }
+
+        // ========== MODAL LOGIC ==========
+        function openShopModal(shopIndex) {
+            currentShop = shops[shopIndex];
+            const modal = document.getElementById('modal');
+            
+            document.getElementById('modal-icon').textContent = currentShop.icon;
+            document.getElementById('modal-title').textContent = currentShop.title;
+            document.getElementById('modal-desc').innerHTML = currentShop.desc;
+            document.getElementById('modal-price').textContent = currentShop.price;
+
+            const itemsContainer = document.getElementById('modal-items');
+            itemsContainer.innerHTML = currentShop.items.map(item => 
+                `<div class="flex gap-2"><span class="text-[#00ff41]/50">→</span> <span>${item}</span></div>`
+            ).join('');
+
+            // Reset console
+            const consoleEl = document.getElementById('action-console');
+            consoleEl.classList.add('hidden');
+            consoleEl.innerHTML = '';
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Log the access
+            addLog(`ACCESSING PROTOCOL: ${currentShop.title}`);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            currentShop = null;
+        }
+
+        // ========== MATRIX ENHANCED CHECKOUT ==========
+        function executePurchase() {
+            if (!currentShop) return;
+
+            const consoleEl = document.getElementById('action-console');
+            consoleEl.classList.remove('hidden');
+            consoleEl.innerHTML = '<canvas id="mini-rain" class="mini-rain"></canvas><div id="checkout-matrix" class="matrix-console text-[#00ff41] text-xs relative z-10"></div>';
+            const matrixDiv = document.getElementById('checkout-matrix');
+            const miniCanvas = document.getElementById('mini-rain');
+            const miniCtx = miniCanvas.getContext('2d');
+
+            // Setup mini rain canvas
+            function setupMiniRain() {
+                miniCanvas.width = consoleEl.offsetWidth;
+                miniCanvas.height = 120;
+                const drops = Array(Math.floor(miniCanvas.width / 8)).fill(1);
+                const chars = matrixChars;
+
+                function drawMini() {
+                    miniCtx.fillStyle = 'rgba(0, 17, 0, 0.1)';
+                    miniCtx.fillRect(0, 0, miniCanvas.width, miniCanvas.height);
+                    miniCtx.fillStyle = '#00ff41';
+                    miniCtx.font = '10px monospace';
+                    for (let i = 0; i < drops.length; i++) {
+                        const char = chars[Math.floor(Math.random() * chars.length)];
+                        miniCtx.fillText(char, i * 8, drops[i] * 8);
+                        if (drops[i] * 8 > miniCanvas.height && Math.random() > 0.975) drops[i] = 0;
+                        drops[i]++;
+                    }
+                }
+                return setInterval(drawMini, 60);
+            }
+            const miniInterval = setupMiniRain();
+
+            const lines = [
+                'DEMO MODE — This is not real.',
+                'Register and create account to buy actual service.',
+                '2.3 EUR for 9 bots that auto-view links + play YT videos.',
+                'INITIALIZING SLOTH MATRIX BREACH PROTOCOL...',
+                'ROUTING THROUGH 13 PROXY LAYERS...',
+                `DEPLOYING ${currentShop.title.split(' ').slice(0,2).join(' ')} FARM...`,
+                'MATRIX RAIN SYNCHRONIZED. DEMO ACCESS GRANTED.'
+            ];
+
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < lines.length) {
+                    const scrambled = lines[i].replace(/./g, (c, idx) => (idx % 3 === 0 && Math.random() > 0.5) ? matrixChars[Math.floor(Math.random() * matrixChars.length)] : c);
+                    const lineEl = document.createElement('div');
+                    lineEl.className = 'mb-0.5 relative z-10';
+                    lineEl.innerHTML = `&gt; ${scrambled}`;
+                    matrixDiv.appendChild(lineEl);
+                    matrixDiv.scrollTop = matrixDiv.scrollHeight;
+
+                    setTimeout(() => {
+                        lineEl.innerHTML = `&gt; ${lines[i]}`;
+                    }, 120);
+
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    clearInterval(miniInterval);
+                    
+                    setTimeout(() => {
+                        const success = document.createElement('div');
+                        success.className = 'mt-2 text-[#00ff9d] font-bold text-sm glitch relative z-10';
+                        success.innerHTML = `DEMO COMPLETE. Register + pay 2.3 EUR to activate 9 real bots that automatically view links and play YouTube videos. MATRIX NODE ONLINE`;
+                        matrixDiv.appendChild(success);
+
+                        updateNodeCount(Math.floor(Math.random() * 30) + 13);
+                        addLog(`DEMO PURCHASE: ${currentShop.title} — register for real 2.3 EUR / 9 bots`);
+
+                        setTimeout(() => {
+                            closeModal();
+                        }, 1400);
+                    }, 300);
+                }
+            }, 220);
+        }
+
+        // ========== LIVE MATRIX LOG ==========
+        let logInterval = null;
+
+        const logMessages = [
+            'node-7f3a: organic engagement vector accepted',
+            'proxy-42: slow drip campaign initialized',
+            'sloth-core: bot army warm-up phase complete',
+            'matrix: algorithm loves the 0.3x curve',
+            'farm-19: 17 new aged accounts spun up',
+            'for-you: watch time velocity +14% this cycle',
+            'stealth: fingerprint rotation successful',
+            'the-sloth: never rush the nodes',
+            'growth: real humans > fast bots (always)',
+            'daemon: self-healing bot net stable'
+        ];
+
+        function addLog(msg) {
+            const logEl = document.getElementById('matrix-log');
+            const line = document.createElement('div');
+            line.className = 'opacity-80';
+            line.innerHTML = `<span class="text-[#00ff41]/40">[${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'})}]</span> ${msg}`;
+            logEl.appendChild(line);
+            
+            if (logEl.children.length > 7) {
+                logEl.removeChild(logEl.children[0]);
+            }
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function startLiveLog() {
+            const logEl = document.getElementById('matrix-log');
+            
+            // Seed a few lines
+            for (let i = 0; i < 3; i++) {
+                const randomMsg = logMessages[Math.floor(Math.random() * logMessages.length)];
+                const line = document.createElement('div');
+                line.className = 'opacity-70';
+                line.innerHTML = `<span class="text-[#00ff41]/30">[${new Date(Date.now() - (i+1)*42000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'})}]</span> ${randomMsg}`;
+                logEl.appendChild(line);
+            }
+            logEl.scrollTop = logEl.scrollHeight;
+
+            logInterval = setInterval(() => {
+                const msg = logMessages[Math.floor(Math.random() * logMessages.length)];
+                addLog(msg);
+            }, 6500);
+        }
+
+        function clearLog() {
+            const logEl = document.getElementById('matrix-log');
+            logEl.innerHTML = '';
+            addLog('LOG CLEARED BY OPERATOR');
+        }
+
+        // ========== INIT ==========
+        function init() {
+            initMatrixRain();
+            startLiveLog();
+
+            // Random initial nodes (looks lived-in)
+            nodeCount = Math.floor(Math.random() * 47) + 11;
+            document.getElementById('node-count').textContent = nodeCount;
+
+            // Welcome log
+            setTimeout(() => {
+                addLog('OPERATOR CONNECTED TO THE SLOTH MATRIX');
+            }, 1100);
+
+            // Subtle rain burst on load
+            setTimeout(() => {
+                const canvas = document.getElementById('matrix-rain');
+                if (canvas) canvas.style.opacity = '0.28';
+            }, 600);
+
+            // Keyboard easter egg: press 'm' for matrix intensity
+            document.addEventListener('keydown', (e) => {
+                if (e.key.toLowerCase() === 'm') {
+                    const canvas = document.getElementById('matrix-rain');
+                    canvas.style.transition = 'opacity 200ms';
+                    canvas.style.opacity = canvas.style.opacity === '0.55' ? '0.22' : '0.55';
+                    addLog('MATRIX RAIN INTENSITY TOGGLED');
+                }
+                if (e.key === '?') {
+                    const allButtons = document.querySelectorAll('.neon-button');
+                    allButtons.forEach((b, i) => {
+                        setTimeout(() => {
+                            b.style.transform = 'scale(1.03)';
+                            setTimeout(() => b.style.transform = '', 180);
+                        }, i * 80);
+                    });
+                }
+            });
+
+            // Boot message
+            console.log('%c[theslothshop] Matrix cyberpunk mode engaged. Press M to boost rain.', 'color:#003300');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
