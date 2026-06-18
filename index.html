@@ -191,7 +191,7 @@
         <!-- TOP TERMINAL BAR -->
         <div class="flex items-center justify-between py-4 border-b border-[#003300]">
             <div class="flex items-center gap-x-3">
-                <div class="w-8 h-8 border border-[#00ff41] flex items-center justify-center text-xl">🦛</div>
+                <div class="w-8 h-8 border border-[#00ff41] flex items-center justify-center text-xl">🦥</div>
                 <div>
                     <span class="matrix-font text-2xl sm:text-3xl font-bold tracking-[3px] cyber-glow">THESLOTHSHOP</span>
                     <span class="ml-2 text-xs px-2 py-0.5 border border-[#00ff41] text-[#00ff41]">v0.8 // MATRIX</span>
@@ -451,7 +451,7 @@
             window.addEventListener('resize', resize);
             resize();
 
-            matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン 0123456789$#@&*'.split('');
+            matrixChars = '01アイウエオカキクケCOサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789$#@&*'.split('');
 
             function drawRain() {
                 matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -624,7 +624,7 @@
             }
 
             const toast = document.createElement('div');
-            toast.className = 'fixed bottom-4 left-1/2 -translate-x/2 px-4 py-1 text-xs border border-[#00ff41] bg-black z-[60]';
+            toast.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 px-4 py-1 text-xs border border-[#00ff41] bg-black z-[60]';
             toast.textContent = 'REGISTRATION COMPLETE • WELCOME TO THE FAMILY';
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 1600);
